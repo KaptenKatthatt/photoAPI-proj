@@ -1,20 +1,20 @@
 {
-  "name": "fed25-api-prisma-boilerplate",
+  "name": "fed25-api-prisma-jickr",
   "version": "1.0.0",
   "main": "dist/server.ts",
   "scripts": {
     "build": "env-cmd --silent bash scripts/build.sh",
     "build-app": "npm run lint && npm run typecheck && node scripts/build.js",
     "check": "run-s lint typecheck type-coverage",
-    "debug": "cross-env DEBUG=prisma-boilerplate:* tsx --watch src/server.ts",
-    "dev": "cross-env DEBUG=prisma-boilerplate:* tsx --watch src/server.ts",
+    "debug": "cross-env DEBUG=prisma-jickr:* tsx --watch src/server.ts",
+    "dev": "cross-env DEBUG=prisma-jickr:* tsx --watch src/server.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "type-coverage": "type-coverage -p tsconfig.json --at-least 99 --detail --ignore-files \"generated/prisma/internal/*.ts\" --ignore-files \"prisma/seed.ts\"",
     "start": "tsx src/server.ts"
   },
   "keywords": [],
-  "author": "Johan Nordström <johan@digitalvillage.se>",
+  "author": "Jonas Olson <zup@jonasolson.se>",
   "license": "ISC",
   "type": "module",
   "dependencies": {
