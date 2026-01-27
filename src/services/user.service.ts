@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.ts";
+import type { CreateUserData } from "../types/User.types.ts";
 
 /**
  * Get a User
@@ -11,14 +12,14 @@ export const getUser = async (userId: number) => {
 	});
 };
 
-/**
- * Get a User by email
- *
- * @param email Email of user to get
- */
+// Get all users
+export const getUsers = () => {
+	return prisma.user.findMany();
+};
 
-export const getUserByEmail = async (email: string) => {
-	return await prisma.user.findUnique({
-		where: { email },
+// Create a User
+export const createUser = async (data: CreateUserData) => {
+	return prisma.user.create({
+		data,
 	});
 };

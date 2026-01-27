@@ -1,7 +1,7 @@
 import express from "express";
+import { index, show, store } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { getProfile } from "../controllers/profile.controller.ts";
-import { updateUserRules } from "../rules/user.rules.ts";
+import { createUserRules } from "../rules/user.rules.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
@@ -9,9 +9,25 @@ export const profileRouter = express.Router();
 /**
  * GET /profile
  *
- * Get the authenticated user's profile
+ * Get all profiles
  */
-profileRouter.get("/", getProfile);
+
+profileRouter.get("/", index);
+
+/**
+ * GET /profile
+ *
+ * Get a single user by ID
+ */
+profileRouter.get("/:userId", show);
+
+/**
+ * POST /profile
+ *
+ * Create a user
+ */
+
+profileRouter.post("/", createUserRules, validateRequest, store);
 
 /**
  * PATCH /profile

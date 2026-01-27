@@ -3,6 +3,8 @@ import { Prisma } from "../../generated/prisma/client.ts";
 
 /**
  * Handle Prisma Errors
+ * @param res Express Response
+ * @param err Error to handle
  */
 export const handlePrismaError = (res: Response, err: unknown) => {
 	if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -30,5 +32,8 @@ export const handlePrismaError = (res: Response, err: unknown) => {
 
 	// Fallback
 	console.error(err);
-	res.status(500).send({ status: "error", message: "Something went wrong when querying the database" });
-}
+	res.status(500).send({
+		status: "error",
+		message: "Something went wrong when querying the database",
+	});
+};

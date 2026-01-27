@@ -36,6 +36,13 @@ export const createUserRules = [
 		.isEmail()
 		.withMessage("Email must be a valid email address")
 		.custom(validateEmailDoesNotExist),
+
+	body("password")
+		.isString()
+		.withMessage("Password must be a string")
+		.bail()
+		.isLength({ min: 6 })
+		.withMessage("Password must be at least 6 characters long"),
 ];
 
 export const updateUserRules = [

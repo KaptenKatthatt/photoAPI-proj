@@ -1,6 +1,7 @@
 import express from "express";
 import { photosRouter } from "./photos.router.ts";
 import { albumsRouter } from "./albums.router.ts";
+import { profileRouter } from "./profile.router.ts";
 
 // Create a Root router
 export const rootRouter = express.Router();
@@ -32,4 +33,4 @@ rootRouter.use("/albums", albumsRouter);
 // rootRouter.use(authRouter);
 
 // // Profile router
-// rootRouter.use("/profile", profileRouter);
+rootRouter.use("/profile", profileRouter);

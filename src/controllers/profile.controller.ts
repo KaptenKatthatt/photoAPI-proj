@@ -3,9 +3,26 @@
  */
 
 import { Request, Response } from "express";
-import { getUser } from "../services/user.service.ts";
+import { createUser, getUser, getUsers } from "../services/user.service.ts";
+import { matchedData } from "express-validator";
+import type { CreateUserData } from "../types/User.types.ts";
+import { handlePrismaError } from "../lib/handlePrismaError.ts";
 
-export const getProfile = async (req: Request, res: Response) => {
+// Get all users
+export const index = async (req: Request, res: Response) => {
+	try {
+		const users = await getUsers();
+		res.send({
+			status: "success",
+			data: { users },
+		});
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// Get a single user
+export const show = async (req: Request, res: Response) => {
 	const userId = Number(req.params.userId);
 
 	// Get user info from database
@@ -25,6 +42,19 @@ export const getProfile = async (req: Request, res: Response) => {
 			email: user.email,
 		},
 	});
+};
+
+export const store = async (req: Request, res: Response) => {
+	const validatedData = matchedData<CreateUserData>(req);
+	try {
+		const user = await createUser(validatedData);
+		res.status(201).send({
+			status: "success",
+			data: { user },
+		});
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
 };
 
 // export const updateProfile = async (req: Request, res: Response) => {
