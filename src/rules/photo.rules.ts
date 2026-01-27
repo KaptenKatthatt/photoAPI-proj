@@ -22,7 +22,7 @@ export const createPhotoRules = [
 
 	body("userId")
 		.exists()
-		.withMessage("User ID is required")
+		.withMessage("User ID missing, is required")
 		.bail()
 		.isInt()
 		.withMessage("User ID must be an integer"),
