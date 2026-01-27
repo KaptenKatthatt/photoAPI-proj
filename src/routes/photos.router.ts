@@ -1,5 +1,5 @@
 import express from "express";
-import { index } from "../controllers/photos.controller.ts";
+import { index, show } from "../controllers/photos.controller.ts";
 
 // Create Photos router
 export const photosRouter = express.Router();

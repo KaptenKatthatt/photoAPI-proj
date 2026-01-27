@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { getPhotos } from "../services/photos.service.ts";
+import { getPhoto, getPhotos } from "../services/photos.service.ts";
 
 /**
  * Get all photos
@@ -16,12 +16,12 @@ export const index = async (_req: Request, res: Response) => {
 };
 
 /**
- * Get a single resource
+ * Get a single photo by ID
  */
 export const show = async (req: Request, res: Response) => {
-	const photo = Number(req.params.photoId);
+	const photoId = Number(req.params.photoId);
 	try {
-		const photo = await getPhotos(photoId);
+		const photo = await getPhoto(photoId);
 		res.send({ status: "success", data: photo });
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -29,9 +29,11 @@ export const show = async (req: Request, res: Response) => {
 };
 
 /**
- * Create an resource
+ * Create an photo
  */
-export const store = async (req: Request, res: Response) => {};
+export const store = async (req: Request, res: Response) => {
+	export const
+};
 
 /**
  * Update a single resource
