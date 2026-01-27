@@ -1,7 +1,6 @@
 import express from "express";
-import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { prisma } from "../lib/prisma.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
+import { index, show, store, update } from "../controllers/albums.controller.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();
@@ -28,19 +27,18 @@ albumsRouter.get("/:albumId", show);
 albumsRouter.post("/", createAlbumRules, validateRequest, store);
 
 /**
- * PATCH /books/:bookId
+ * PATCH /albums/:albumId
  *
- * Update a single book
+ * Update a single album
  */
-booksRouter.patch("/:bookId", updateBookRules, validateRequest, update);
+albumsRouter.patch("/:albumId", updateAlbumRules, validateRequest, update);
 
 /**
- * DELETE /books/:bookId
+ * DELETE /albums/:albumId
  *
- * Delete a single book
+ * Delete a single album
  */
-booksRouter.delete("/:bookId", destroy);
-
+albumsRouter.delete("/:albumId", destroy);
 // /**
 //  * POST /books/:bookId/authors
 //  *

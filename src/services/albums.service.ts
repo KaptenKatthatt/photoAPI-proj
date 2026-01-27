@@ -3,6 +3,7 @@
  */
 
 import { prisma } from "../lib/prisma.ts";
+import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 
 /**
  * Get all albums
@@ -43,89 +44,24 @@ export const createAlbum = async (validatedData: CreateAlbumData) => {
  * @param data Book data
  * @returns
  */
-export const updateBook = async (bookId: number, validatedData: UpdateBookData) => {
-	return await prisma.book.update({
+export const updateAlbum = async (albumId: number, validatedData: UpdateAlbumData) => {
+	return await prisma.album.update({
 		where: {
-			id: bookId,
+			id: albumId,
 		},
 		data: validatedData,
 	});
 };
 
 /**
- * Delete a book
+ * Delete an album
  *
- * @param bookId The ID of the Book to delete
+ * @param albumId The ID of the Album to delete
  */
-export const deleteBook = async (bookId: number) => {
-	prisma.book.delete({
+export const deleteAlbum = async (albumId: number) => {
+	prisma.album.delete({
 		where: {
-			id: bookId,
-		},
-	});
-};
-
-/**
- * Link author(s) to book
- *
- * @param bookId The ID of the Book
- * @param authorIdOrIds The ID(s) of the Author(s)
- */
-export const addAuthorToBook = (bookId: number, authorIdOrIds: AuthorId | AuthorId[]) => {
-	return prisma.book.update({
-		where: {
-			id: bookId,
-		},
-		data: {
-			authors: {
-				connect: authorIdOrIds, // { "id": 9 } OR [{"id": 10}, {"id":11}]
-			},
-		},
-		include: {
-			authors: true,
-		},
-	});
-};
-
-/**
- * Unlink author from book
- *
- * @param bookId
- * @param authorId
- * @returns
- */
-export const removeAuthorFromBook = (authorId: number, bookId: number) => {
-	return prisma.book.update({
-		where: {
-			id: bookId,
-		},
-		data: {
-			authors: {
-				disconnect: {
-					id: authorId,
-				},
-			},
-		},
-		include: {
-			authors: true,
-		},
-	});
-};
-
-/**
- * COMPLICATED VERSION
- * Get all books that are connected to the specified user
- *
- * @param userId User ID
- */
-export const getBooksByUserId = (userId: number) => {
-	return prisma.book.findMany({
-		where: {
-			users: {
-				some: {
-					id: userId,
-				},
-			},
+			id: albumId,
 		},
 	});
 };
