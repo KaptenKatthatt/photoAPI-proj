@@ -1,5 +1,6 @@
 import express from "express";
 import { photosRouter } from "./photos.router.ts";
+import { albumsRouter } from "./albums.router.ts";
 
 // Create a Root router
 export const rootRouter = express.Router();
@@ -23,7 +24,7 @@ rootRouter.use("/photos", photosRouter);
 // //Albums router
 rootRouter.use("/albums", albumsRouter);
 
-// // User router
+// User router
 
 // rootRouter.use("/user", userRouter);
 

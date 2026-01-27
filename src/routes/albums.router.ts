@@ -1,6 +1,6 @@
 import express from "express";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { index, show, store, update } from "../controllers/albums.controller.ts";
+import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();
@@ -39,6 +39,7 @@ albumsRouter.patch("/:albumId", updateAlbumRules, validateRequest, update);
  * Delete a single album
  */
 albumsRouter.delete("/:albumId", destroy);
+
 // /**
 //  * POST /books/:bookId/authors
 //  *

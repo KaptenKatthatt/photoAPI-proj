@@ -90,7 +90,9 @@ export const update = async (req: Request, res: Response) => {
 				album,
 			},
 		});
-	} catch (error) {}
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
 };
 
 // Delete an album
