@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { createPhoto, getPhoto, getPhotos, updatePhoto } from "../services/photos.service.ts";
+import {
+	createPhoto,
+	deletePhoto,
+	getPhoto,
+	getPhotos,
+	updatePhoto,
+} from "../services/photos.service.ts";
 import { matchedData } from "express-validator";
 import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 
@@ -63,6 +69,20 @@ export const update = async (req: Request, res: Response) => {
 };
 
 // /**
-//  * Delete a single resource
+//  * Delete a single photo
 //  */
-// export const destroy = async (req: Request, res: Response) => {};
+export const destroy = async (req: Request, res: Response) => {
+	const photoId = Number(req.params.photoId);
+
+	if (!photoId) {
+		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		return;
+	}
+
+	try {
+		await deletePhoto(photoId);
+		res.status(204).send();
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
