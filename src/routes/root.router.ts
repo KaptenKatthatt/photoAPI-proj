@@ -30,4 +30,4 @@ rootRouter.use("/albums", albumsRouter);
 rootRouter.use("/profile", profileRouter);
 
 // Auth router
-rootRouter.use("/register", authRouter);
+rootRouter.use(authRouter);
