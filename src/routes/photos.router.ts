@@ -1,5 +1,5 @@
 import express from "express";
-import { index, show } from "../controllers/photos.controller.ts";
+import { index, show, store } from "../controllers/photos.controller.ts";
 
 // Create Photos router
 export const photosRouter = express.Router();
@@ -17,3 +17,10 @@ photosRouter.get("/", index);
  * Get a single photo by ID
  */
 photosRouter.get("/:photoId", show);
+
+/**
+ * POST /books
+ *
+ * Create a book
+ */
+photosRouter.post("/", store);

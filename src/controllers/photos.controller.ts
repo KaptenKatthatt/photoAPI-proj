@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { getPhoto, getPhotos } from "../services/photos.service.ts";
+import { createPhoto, getPhoto, getPhotos, updatePhoto } from "../services/photos.service.ts";
+import { matchedData } from "express-validator";
+import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 
 /**
  * Get all photos
@@ -29,18 +31,38 @@ export const show = async (req: Request, res: Response) => {
 };
 
 /**
- * Create an photo
+ * Create a photo
  */
 export const store = async (req: Request, res: Response) => {
-	export const
+	const validatedData = matchedData<CreatePhotoData>(req);
+	try {
+		const photo = await createPhoto(validatedData);
+		res.status(201).send({ status: "success", data: photo });
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
 };
 
-/**
- * Update a single resource
- */
-export const update = async (req: Request, res: Response) => {};
+export const update = async (req: Request, res: Response) => {
+	const photoId = Number(req.params.photoId);
 
-/**
- * Delete a single resource
- */
-export const destroy = async (req: Request, res: Response) => {};
+	if (!photoId) {
+		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		return;
+	}
+
+	try {
+		const validatedData = matchedData<Partial<UpdatePhotoData>>(req);
+
+		const photo = await updatePhoto(photoId, validatedData);
+
+		res.send({ status: "success", data: photo });
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// /**
+//  * Delete a single resource
+//  */
+// export const destroy = async (req: Request, res: Response) => {};

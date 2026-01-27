@@ -1,4 +1,5 @@
 import express from "express";
+import { photosRouter } from "./photos.router.ts";
 
 // Create a Root router
 export const rootRouter = express.Router();
@@ -24,15 +25,15 @@ rootRouter.get("/", (_req, res) => {
 // Photos router
 rootRouter.use("/photos", photosRouter);
 
-//Albums router
-rootRouter.use("/albums", albumsRouter);
+// //Albums router
+// rootRouter.use("/albums", albumsRouter);
 
-// User router
+// // User router
 
-rootRouter.use("/user", userRouter);
+// rootRouter.use("/user", userRouter);
 
-// Auth router
-rootRouter.use(authRouter);
+// // Auth router
+// rootRouter.use(authRouter);
 
-// Profile router
-rootRouter.use("/profile", profileRouter);
+// // Profile router
+// rootRouter.use("/profile", profileRouter);
