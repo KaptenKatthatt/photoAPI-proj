@@ -1,8 +1,7 @@
 import express from "express";
-import { create } from "lodash";
 import { createUserRules } from "../rules/user.rules.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { register } from "node:module";
+import { registerUser } from "../controllers/auth.controller.ts";
 
 export const authRouter = express.Router();
 
@@ -11,4 +10,4 @@ export const authRouter = express.Router();
  *
  * Register a new user
  */
-authRouter.post("/register", createUserRules, validateRequest, registerUser);
+authRouter.post("/", createUserRules, validateRequest, registerUser);

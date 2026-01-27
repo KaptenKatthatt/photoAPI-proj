@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import type { CreateUserData } from "../types/User.types.ts";
 import { matchedData } from "express-validator";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { createUserRules } from "../rules/user.rules.ts";
 import { createUser } from "../services/user.service.ts";
 /**
  * Auth Controller

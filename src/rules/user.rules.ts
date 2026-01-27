@@ -7,13 +7,13 @@ import { getUserByEmail } from "../services/user.service.ts";
  * @param value Email
  * @returns
  */
-const validateEmailDoesNotExist = async (value: string) => {
-	const user = await getUserByEmail(value);
-	// If a user with that email was found, throw an error
-	if (user) {
-		throw new Error("Email already exists");
-	}
-};
+// const validateEmailDoesNotExist = async (value: string) => {
+// 	const user = await getUserByEmail(value);
+// 	// If a user with that email was found, throw an error
+// 	if (user) {
+// 		throw new Error("Email already exists");
+// 	}
+// };
 
 export const createUserRules = [
 	body("first_name")
@@ -31,11 +31,8 @@ export const createUserRules = [
 		.isLength({ min: 3, max: 191 })
 		.withMessage("Last name must be between 3 and 191 characters"),
 
-	body("email")
-		.trim()
-		.isEmail()
-		.withMessage("Email must be a valid email address")
-		.custom(validateEmailDoesNotExist),
+	body("email").trim().isEmail().withMessage("Email must be a valid email address"),
+	// .custom(validateEmailDoesNotExist),
 
 	body("password")
 		.isString()
@@ -64,12 +61,8 @@ export const updateUserRules = [
 		.isLength({ min: 3, max: 191 })
 		.withMessage("Last name must be between 3 and 191 characters"),
 
-	body("email")
-		.optional()
-		.trim()
-		.isEmail()
-		.withMessage("Email must be a valid email address")
-		.custom(validateEmailDoesNotExist),
+	body("email").optional().trim().isEmail().withMessage("Email must be a valid email address"),
+	// .custom(validateEmailDoesNotExist),
 
 	body("password")
 		.optional()
