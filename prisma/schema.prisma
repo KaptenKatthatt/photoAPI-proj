@@ -18,7 +18,7 @@ model Album {
 model Photo {
   id      Int     @id @default(autoincrement())
   title   String
-  url     String  @db.Text
+  url     String  @db.Text // Text instead of varchar to support URLs longer than 191 char.
   comment String?
   albums  Album[]
   user    User    @relation(fields: [userId], references: [id])

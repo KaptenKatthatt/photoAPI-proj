@@ -20,7 +20,12 @@ export const createPhotoRules = [
 		.isLength({ max: 500 })
 		.withMessage("Comment must be at most 500 characters"),
 
-	body("userId").isInt().withMessage("User ID must be an integer"),
+	body("userId")
+		.exists()
+		.withMessage("User ID is required")
+		.bail()
+		.isInt()
+		.withMessage("User ID must be an integer"),
 ];
 
 export const updatePhotoRules = [

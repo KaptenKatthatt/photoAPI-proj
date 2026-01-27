@@ -18,7 +18,7 @@ export const getPhoto = async (photoId: number) => {
 export const createPhoto = async (validatedData: CreatePhotoData) => {
 	const { userId, ...data } = validatedData;
 
-	if (!userId) throw new Error("Missing userId");
+	if (userId === null) throw new Error("Missing userId");
 
 	return await prisma.photo.create({
 		data: { ...data, user: { connect: { id: userId } } },
