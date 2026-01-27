@@ -11,3 +11,10 @@ export const authRouter = express.Router();
  * Register a new user
  */
 authRouter.post("/", createUserRules, validateRequest, registerUser);
+
+// TODO Create login stuff
+/**
+ * POST /login
+ *
+ * Login and authorize user
+ */

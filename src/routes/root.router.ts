@@ -26,14 +26,7 @@ rootRouter.use("/photos", photosRouter);
 // //Albums router
 rootRouter.use("/albums", albumsRouter);
 
-// User router
-
-// rootRouter.use("/user", userRouter);
-
-// // Auth router
-// rootRouter.use(authRouter);
-
-// // Profile router
+// Profile router
 rootRouter.use("/profile", profileRouter);
 
 // Auth router
