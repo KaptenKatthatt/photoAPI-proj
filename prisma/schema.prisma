@@ -18,7 +18,7 @@ model Album {
 model Photo {
   id      Int     @id @default(autoincrement())
   title   String
-  url     String
+  url     String  @db.Text
   comment String?
   albums  Album[]
   user    User    @relation(fields: [userId], references: [id])

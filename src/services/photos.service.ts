@@ -16,8 +16,12 @@ export const getPhoto = async (photoId: number) => {
 
 // Publish a new photo
 export const createPhoto = async (validatedData: CreatePhotoData) => {
+	const { userId, ...data } = validatedData;
+
+	if (!userId) throw new Error("Missing userId");
+
 	return await prisma.photo.create({
-		data: validatedData,
+		data: { ...data, user: { connect: { id: userId } } },
 	});
 };
 

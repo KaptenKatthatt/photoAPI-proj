@@ -7,9 +7,9 @@ import { createPhotoRules, updatePhotoRules } from "../rules/photo.rules.ts";
 export const photosRouter = express.Router();
 
 /**
- * GET /books
+ * GET /photos
  *
- * Get all books
+ * Get all photos
  */
 photosRouter.get("/", index);
 
@@ -23,7 +23,7 @@ photosRouter.get("/:photoId", show);
 /**
  * POST /photos
  *
- * Create a photo
+ * Create a photo and attach it to the user
  */
 photosRouter.post("/", createPhotoRules, validateRequest, store);
 
