@@ -37,9 +37,9 @@ export const show = async (req: Request, res: Response) => {
 		status: "success",
 		data: {
 			id: user.id,
+			email: user.email,
 			first_name: user.first_name,
 			last_name: user.last_name,
-			email: user.email,
 		},
 	});
 };
