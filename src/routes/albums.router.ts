@@ -1,6 +1,7 @@
 import express from "express";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
+import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();

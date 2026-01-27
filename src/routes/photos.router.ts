@@ -1,5 +1,7 @@
 import express from "express";
-import { destroy, index, show, store } from "../controllers/photos.controller.ts";
+import { destroy, index, show, store, update } from "../controllers/photos.controller.ts";
+import { validateRequest } from "../middlewares/validateRequest.ts";
+import { createPhotoRules, updatePhotoRules } from "../rules/photo.rules.ts";
 
 // Create Photos router
 export const photosRouter = express.Router();
@@ -19,11 +21,18 @@ photosRouter.get("/", index);
 photosRouter.get("/:photoId", show);
 
 /**
- * POST /books
+ * POST /photos
  *
- * Create a book
+ * Create a photo
  */
-photosRouter.post("/", store);
+photosRouter.post("/", createPhotoRules, validateRequest, store);
+
+/**
+ * PATCH /photos
+ *
+ * Update a photo
+ */
+photosRouter.patch("/:photoId", updatePhotoRules, validateRequest, update);
 
 /**
  * DELETE /photos/:photoId
