@@ -17,16 +17,11 @@ rootRouter.get("/", (_req, res) => {
 	});
 });
 
-/**
- * [EXAMPLE] /resource
- */
-// rootRouter.use("/resource", resourceRouter);
-
 // Photos router
 rootRouter.use("/photos", photosRouter);
 
 // //Albums router
-// rootRouter.use("/albums", albumsRouter);
+rootRouter.use("/albums", albumsRouter);
 
 // // User router
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { index, show, store } from "../controllers/photos.controller.ts";
+import { destroy, index, show, store } from "../controllers/photos.controller.ts";
 
 // Create Photos router
 export const photosRouter = express.Router();
@@ -24,3 +24,10 @@ photosRouter.get("/:photoId", show);
  * Create a book
  */
 photosRouter.post("/", store);
+
+/**
+ * DELETE /photos/:photoId
+ *
+ * Delete a single photo
+ */
+photosRouter.delete("/:photoId", destroy);
