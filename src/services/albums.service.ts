@@ -16,14 +16,16 @@ export const getAlbums = async () => {
  * Get a single album
  */
 export const getAlbum = async (albumId: number) => {
-	return await prisma.album.findUniqueOrThrow({
+	const result = await prisma.album.findUniqueOrThrow({
 		where: {
 			id: albumId,
 		},
 		include: {
 			user: true,
+			photos: true,
 		},
 	});
+	return result;
 };
 
 /**
@@ -66,21 +68,20 @@ export const deleteAlbum = async (albumId: number) => {
 	});
 };
 
-// Add photo to album
-export const addPhotoToAlbum = async (albumId: number, photoId: number) => {
-	return await prisma.album.update({
-		where: {
-			id: albumId,
-		},
-		data: {
-			photos: {
-				connect: {
-					id: photoId,
-				},
-			},
-		},
-		include: {
-			photos: true,
-		},
-	});
-};
+// Add one or multiple photos to an album, single object with id or array of objects with id
+// https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries#connect-or-create-a-record
+// export const addPhotoToAlbum = async (albumId: number, photoData: UpdatePhotoData) => {
+// 	return await prisma.album.update({
+// 		where: {
+// 			id: albumId,
+// 		},
+// 		data: {
+// 			photos: {
+// 				connect: photoData,
+// 			},
+// 		},
+// 		include: {
+// 			photos: true,
+// 		},
+// 	});
+// };

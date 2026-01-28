@@ -5,7 +5,6 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import {
-	addPhotoToAlbum,
 	createAlbum,
 	deleteAlbum,
 	getAlbum,
@@ -14,6 +13,7 @@ import {
 } from "../services/albums.service.ts";
 import { matchedData } from "express-validator";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
+import { prisma } from "../lib/prisma.ts";
 
 // Get all albums
 export const index = async (_req: Request, res: Response) => {
@@ -114,17 +114,25 @@ export const destroy = async (req: Request, res: Response) => {
 	}
 };
 
-// Connect album to user
-
-// Disconnect album from user
-
-// Add photo to album
+// Add photo or photos to album
 export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
-	const photoId = Number(req.params.photoId);
 
 	try {
-		const result = await addPhotoToAlbum(albumId, photoId);
+		const result = await prisma.album.update({
+			where: {
+				id: albumId,
+			},
+			data: {
+				photos: {
+					connect: req.body,
+				},
+			},
+			include: {
+				photos: true,
+			},
+		});
+
 		res.send(result);
 	} catch (error) {
 		handlePrismaError(res, error);

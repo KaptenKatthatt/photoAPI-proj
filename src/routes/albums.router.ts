@@ -20,10 +20,11 @@ albumsRouter.get("/", index);
  */
 albumsRouter.get("/:albumId", show);
 
+
 /**
  * POST /albums
  *
- * Create a album
+ * Create an album
  */
 albumsRouter.post("/", createAlbumRules, validateRequest, store);
 
@@ -41,16 +42,9 @@ albumsRouter.patch("/:albumId", updateAlbumRules, validateRequest, update);
  */
 albumsRouter.delete("/:albumId", destroy);
 
-// /**
-//  * POST /books/:bookId/authors
-//  *
-//  * Add author(s) to book
-//  */
-// booksRouter.post("/:bookId/authors", addAuthor);
-
 /**
  * POST /albums/:albumId/photos/:photoId
  *
- * Add a photo to an album
+ * Add one or many photos to an album
  */
-albumsRouter.post("/:albumId/photos/:photoId", linkPhotoToAlbum);
+albumsRouter.post("/:albumId/photos/", linkPhotoToAlbum);

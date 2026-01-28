@@ -44,6 +44,7 @@ export const show = async (req: Request, res: Response) => {
 	});
 };
 
+// Create a user
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreateUserData>(req);
 	try {
@@ -57,5 +58,12 @@ export const store = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * Update a user profile
+ */
 // export const updateProfile = async (req: Request, res: Response) => {
 // }
+
+// Connect an album to a user
+
+// Disconnect album from user
