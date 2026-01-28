@@ -9,7 +9,7 @@ export const createPhotoRules = [
 		.isLength({ min: 3, max: 191 })
 		.withMessage("Title must be between 3 and 191 characters"),
 
-	body("url").isURL().withMessage("URL must be a valid URL").bail().trim(),
+	body("url").trim().isURL().withMessage("URL must be a valid URL").bail(),
 
 	body("comment")
 		.optional()

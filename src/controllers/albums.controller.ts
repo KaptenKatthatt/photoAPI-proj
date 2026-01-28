@@ -5,6 +5,7 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import {
+	addPhotoToAlbum,
 	createAlbum,
 	deleteAlbum,
 	getAlbum,
@@ -116,3 +117,16 @@ export const destroy = async (req: Request, res: Response) => {
 // Connect album to user
 
 // Disconnect album from user
+
+// Add photo to album
+export const linkPhotoToAlbum = async (req: Request, res: Response) => {
+	const albumId = Number(req.params.albumId);
+	const photoId = Number(req.params.photoId);
+
+	try {
+		const result = await addPhotoToAlbum(albumId, photoId);
+		res.send(result);
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};

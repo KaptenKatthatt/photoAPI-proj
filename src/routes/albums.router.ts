@@ -2,7 +2,7 @@ import express from "express";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
 import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
-
+import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
 // Create a Albums router
 export const albumsRouter = express.Router();
 
@@ -47,3 +47,10 @@ albumsRouter.delete("/:albumId", destroy);
 //  * Add author(s) to book
 //  */
 // booksRouter.post("/:bookId/authors", addAuthor);
+
+/**
+ * POST /albums/:albumId/photos/:photoId
+ *
+ * Add a photo to an album
+ */
+albumsRouter.post("/:albumId/photos/:photoId", linkPhotoToAlbum);

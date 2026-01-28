@@ -65,3 +65,22 @@ export const deleteAlbum = async (albumId: number) => {
 		},
 	});
 };
+
+// Add photo to album
+export const addPhotoToAlbum = async (albumId: number, photoId: number) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId,
+		},
+		data: {
+			photos: {
+				connect: {
+					id: photoId,
+				},
+			},
+		},
+		include: {
+			photos: true,
+		},
+	});
+};
