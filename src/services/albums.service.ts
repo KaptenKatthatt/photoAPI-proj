@@ -67,21 +67,3 @@ export const deleteAlbum = async (albumId: number) => {
 		},
 	});
 };
-
-// Add one or multiple photos to an album, single object with id or array of objects with id
-// https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries#connect-or-create-a-record
-// export const addPhotoToAlbum = async (albumId: number, photoData: UpdatePhotoData) => {
-// 	return await prisma.album.update({
-// 		where: {
-// 			id: albumId,
-// 		},
-// 		data: {
-// 			photos: {
-// 				connect: photoData,
-// 			},
-// 		},
-// 		include: {
-// 			photos: true,
-// 		},
-// 	});
-// };

@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { getUserByEmail } from "../services/user.service.ts";
+// import { getUserByEmail } from "../services/user.service.ts";
 
 /**
  * Validate that a Email does not already exist
