@@ -18,7 +18,8 @@ import { prisma } from "../lib/prisma.ts";
 // Get all albums of logged in user
 export const index = async (req: Request, res: Response) => {
 	{
-		const userId = Number(req.body.id);
+		const userId = Number(req.token?.sub);
+
 		console.log("userId", userId);
 		try {
 			const albums = await getAlbums(userId);
@@ -37,6 +38,8 @@ export const index = async (req: Request, res: Response) => {
 // Get a single album
 export const show = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
+	const userId = Number(req.token?.sub);
+
 	if (!albumId) {
 		res.status(400).send({
 			status: "error",
@@ -45,7 +48,7 @@ export const show = async (req: Request, res: Response) => {
 		return;
 	}
 	try {
-		const album = await getAlbum(albumId);
+		const album = await getAlbum(albumId, userId);
 		res.send({
 			status: "success",
 			data: {

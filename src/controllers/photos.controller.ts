@@ -58,7 +58,7 @@ export const show = async (req: Request, res: Response) => {
  */
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreatePhotoData>(req);
-	const userId = Number(req.token.sub);
+	const userId = Number(req.token?.sub);
 
 	if (!userId) {
 		throw new Error("Could not find userId in token");
