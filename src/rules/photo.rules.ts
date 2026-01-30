@@ -6,8 +6,8 @@ export const createPhotoRules = [
 		.withMessage("Title must be a string")
 		.bail()
 		.trim()
-		.isLength({ min: 3, max: 191 })
-		.withMessage("Title must be between 3 and 191 characters"),
+		.isLength({ min: 3 })
+		.withMessage("Title must be at least 3 characters"),
 
 	body("url").trim().isURL().withMessage("URL must be a valid URL").bail(),
 
@@ -20,12 +20,12 @@ export const createPhotoRules = [
 		.isLength({ max: 500 })
 		.withMessage("Comment must be at most 500 characters"),
 
-	body("userId")
-		.exists()
-		.withMessage("User ID missing, is required")
-		.bail()
-		.isInt()
-		.withMessage("User ID must be an integer"),
+	// body("userId")
+	// 	.exists()
+	// 	.withMessage("User ID missing, is required")
+	// 	.bail()
+	// 	.isInt()
+	// 	.withMessage("User ID must be an integer"),
 ];
 
 export const updatePhotoRules = [
@@ -35,8 +35,8 @@ export const updatePhotoRules = [
 		.withMessage("Title must be a string")
 		.bail()
 		.trim()
-		.isLength({ min: 3, max: 191 })
-		.withMessage("Title must be between 1 and 191 characters"),
+		.isLength({ min: 3 })
+		.withMessage("Title must be at least 3 characters"),
 
 	body("url").optional().isURL().withMessage("URL must be a valid URL").bail().trim(),
 

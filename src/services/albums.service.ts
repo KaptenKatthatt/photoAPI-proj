@@ -6,19 +6,24 @@ import { prisma } from "../lib/prisma.ts";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 
 /**
- * Get all albums
+ * Get all albums of logged in user
  */
-export const getAlbums = async () => {
-	return await prisma.album.findMany();
+export const getAlbums = async (userId: number) => {
+	return await prisma.album.findMany({
+		where: {
+			userId: userId,
+		},
+	});
 };
 
 /**
  * Get a single album
  */
-export const getAlbum = async (albumId: number) => {
+export const getAlbum = async (albumId: number, userId: number) => {
 	const result = await prisma.album.findUniqueOrThrow({
 		where: {
 			id: albumId,
+			userId: userId,
 		},
 		include: {
 			user: true,

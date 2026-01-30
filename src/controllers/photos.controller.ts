@@ -13,9 +13,26 @@ import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 /**
  * Get all photos
  */
-export const index = async (_req: Request, res: Response) => {
+// export const index = async (_req: Request, res: Response) => {
+// 	try {
+// 		const photos = await getPhotos();
+
+// 		res.send({ status: "success", data: photos });
+// 	} catch (error) {
+// 		handlePrismaError(res, error);
+// 	}
+// };
+/**
+ * Get all photos
+ */
+export const getAllPhotosOfUser = async (req: Request, res: Response) => {
+	if (!req.token) {
+		throw new Error("Could not get user from token");
+	}
+	const userId = Number(req.token.sub);
+
 	try {
-		const photos = await getPhotos();
+		const photos = await getPhotos(userId);
 
 		res.send({ status: "success", data: photos });
 	} catch (error) {
@@ -37,12 +54,18 @@ export const show = async (req: Request, res: Response) => {
 };
 
 /**
- * Create a photo
+ * Add a photo to profile
  */
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreatePhotoData>(req);
+	const userId = Number(req.token.sub);
+
+	if (!userId) {
+		throw new Error("Could not find userId in token");
+	}
+
 	try {
-		const photo = await createPhoto(validatedData);
+		const photo = await createPhoto(validatedData, userId);
 		res.status(201).send({ status: "success", data: photo });
 	} catch (error) {
 		handlePrismaError(res, error);

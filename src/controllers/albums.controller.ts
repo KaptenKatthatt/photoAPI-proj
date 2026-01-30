@@ -15,11 +15,13 @@ import { matchedData } from "express-validator";
 import { CreateAlbumData, type AlbumId, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
 
-// Get all albums
-export const index = async (_req: Request, res: Response) => {
+// Get all albums of logged in user
+export const index = async (req: Request, res: Response) => {
 	{
+		const userId = Number(req.body.id);
+		console.log("userId", userId);
 		try {
-			const albums = await getAlbums();
+			const albums = await getAlbums(userId);
 			res.send({
 				status: "success",
 				data: {

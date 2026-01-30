@@ -4,7 +4,7 @@
 
 import type { Photo } from "../../generated/prisma/client.ts";
 
-export type CreatePhotoData = Omit<Photo, "id">;
+export type CreatePhotoData = Omit<Photo, "id" | "userId">;
 
 export type UpdatePhotoData = Partial<CreatePhotoData>;
 

@@ -1,9 +1,24 @@
 import { prisma } from "../lib/prisma.ts";
 import type { CreatePhotoData, UpdatePhotoData } from "../types/Photo.types.ts";
 
-// Get all photos
-export const getPhotos = async () => {
-	return await prisma.photo.findMany();
+// Get all photos of logged in user
+export const getPhotos = async (userId: number) => {
+	const userPhotos = await prisma.user.findUniqueOrThrow({
+		select: {
+			photos: true,
+		},
+		where: {
+			id: userId,
+		},
+	});
+	return userPhotos.photos;
+
+	// return await prisma.photo.findMany({
+	// 	where: {
+	// 		userId: userId,
+	// 	},
+	// });
+	// };
 };
 
 // Get a single photo by ID
@@ -15,13 +30,11 @@ export const getPhoto = async (photoId: number) => {
 };
 
 // Publish a new photo
-export const createPhoto = async (validatedData: CreatePhotoData) => {
-	const { userId, ...data } = validatedData;
-
+export const createPhoto = async (validatedData: CreatePhotoData, userId: number) => {
 	if (userId === null) throw new Error("Missing userId");
 
 	return await prisma.photo.create({
-		data: { ...data, user: { connect: { id: userId } } },
+		data: { ...validatedData, user: { connect: { id: userId } } },
 	});
 };
 

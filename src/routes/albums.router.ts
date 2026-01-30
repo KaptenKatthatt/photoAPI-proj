@@ -3,8 +3,10 @@ import { validateRequest } from "../middlewares/validateRequest.ts";
 import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
 import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
+import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 // Create a Albums router
 export const albumsRouter = express.Router();
+albumsRouter.use(verifyAccessToken);
 
 /**
  * GET /albums
@@ -19,7 +21,6 @@ albumsRouter.get("/", index);
  * Get a single album
  */
 albumsRouter.get("/:albumId", show);
-
 
 /**
  * POST /albums

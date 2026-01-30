@@ -6,6 +6,7 @@ import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
+profileRouter.use(verifyAccessToken);
 
 /**
  * GET /profile
@@ -21,7 +22,7 @@ profileRouter.get("/getAll", index);
  * Get the logged in user's profile
  */
 // profileRouter.get("/", show);
-profileRouter.get("/", verifyAccessToken, getProfile);
+profileRouter.get("/", getProfile);
 
 /**
  * POST /profile
