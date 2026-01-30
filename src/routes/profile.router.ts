@@ -17,9 +17,9 @@ profileRouter.get("/", index);
 /**
  * GET /profile
  *
- * Get a single user by ID
+ * Get the logged in user's profile
  */
-profileRouter.get("/:userId", show);
+profileRouter.get("/", show);
 
 /**
  * POST /profile
