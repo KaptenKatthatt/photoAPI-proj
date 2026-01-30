@@ -2,8 +2,10 @@
  * Album services
  */
 
+import { first } from "lodash";
 import { prisma } from "../lib/prisma.ts";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
+import { title } from "node:process";
 
 /**
  * Get all albums of logged in user
@@ -20,17 +22,15 @@ export const getAlbums = async (userId: number) => {
  * Get a single album
  */
 export const getAlbum = async (albumId: number, userId: number) => {
-	const result = await prisma.album.findUniqueOrThrow({
-		where: {
-			id: albumId,
-			userId: userId,
-		},
+	return await prisma.album.findUniqueOrThrow({
+		where: { id: albumId, userId },
 		include: {
-			user: true,
+			user: {
+				select: { email: true, first_name: true, last_name: true },
+			},
 			photos: true,
 		},
 	});
-	return result;
 };
 
 /**

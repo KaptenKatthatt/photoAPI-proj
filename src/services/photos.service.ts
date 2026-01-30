@@ -22,9 +22,9 @@ export const getPhotos = async (userId: number) => {
 };
 
 // Get a single photo by ID
-export const getPhoto = async (photoId: number) => {
+export const getPhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.findUniqueOrThrow({
-		where: { id: photoId },
+		where: { id: photoId, userId: userId },
 		include: { albums: true },
 	});
 };

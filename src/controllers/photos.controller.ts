@@ -33,8 +33,14 @@ export const getAllPhotosOfUser = async (req: Request, res: Response) => {
  */
 export const show = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
+	const userId = Number(req.token?.sub);
+
+	if (!photoId) {
+		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		return;
+	}
 	try {
-		const photo = await getPhoto(photoId);
+		const photo = await getPhoto(photoId, userId);
 		res.send({ status: "success", data: photo });
 	} catch (error) {
 		handlePrismaError(res, error);
