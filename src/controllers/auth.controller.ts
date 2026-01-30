@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Auth Controller
  */
@@ -53,9 +54,11 @@ export const registerUser = async (req: Request, res: Response) => {
 			...validatedData,
 			password: hashed_password,
 		});
+		const { password: _password, ...userWithoutPassword } = user;
+
 		res.status(201).send({
 			status: "success",
-			data: { user },
+			data: { user: userWithoutPassword },
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -186,3 +189,6 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 		},
 	});
 };
+
+// Refresh access token using refresh token
+// export const refreshAccessToken = async (req: Request, res: Response) => {
