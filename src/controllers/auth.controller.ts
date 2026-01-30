@@ -113,7 +113,7 @@ export const loginUser = async (req: Request, res: Response) => {
 	});
 
 	// Set refresh token as HTTP only cookie
-	res.cookie("refreshToken", refreshToken, {
+	res.cookie("refresh_token", refreshToken, {
 		httpOnly: true,
 		sameSite: "strict",
 		path: "/refresh",
@@ -130,7 +130,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 // Issue new access token using refresh token
 export const refreshAccessToken = async (req: Request, res: Response) => {
-	const refreshToken = (req.cookies as { refreshToken?: string }).refreshToken;
+	const refreshToken = (req.cookies as { refresh_token?: string }).refresh_token;
 
 	if (!refreshToken) {
 		debug("No refresh token found in cookies");
