@@ -12,7 +12,7 @@ import {
 	updateAlbum,
 } from "../services/albums.service.ts";
 import { matchedData } from "express-validator";
-import { CreateAlbumData, type AlbumId, type UpdateAlbumData } from "../types/Album.types.ts";
+import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
 
 // Get all albums of logged in user
