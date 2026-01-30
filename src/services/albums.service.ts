@@ -54,10 +54,15 @@ export const createAlbum = async (validatedData: CreateAlbumData, userId: number
  * @param data Book data
  * @returns
  */
-export const updateAlbum = async (albumId: number, validatedData: UpdateAlbumData) => {
+export const updateAlbum = async (
+	albumId: number,
+	validatedData: UpdateAlbumData,
+	userId: number,
+) => {
 	return await prisma.album.update({
 		where: {
 			id: albumId,
+			userId: userId,
 		},
 		data: validatedData,
 	});

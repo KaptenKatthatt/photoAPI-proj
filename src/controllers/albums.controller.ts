@@ -86,6 +86,8 @@ export const store = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
+	const userId = Number(req.token?.sub);
+
 	if (!albumId) {
 		res.status(400).send({
 			message: "Invalid album ID",
@@ -94,7 +96,7 @@ export const update = async (req: Request, res: Response) => {
 	}
 	try {
 		const validatedData = matchedData<UpdateAlbumData>(req);
-		const album = await updateAlbum(albumId, validatedData);
+		const album = await updateAlbum(albumId, validatedData, userId);
 		res.send({
 			status: "success",
 			data: {
@@ -125,16 +127,15 @@ export const destroy = async (req: Request, res: Response) => {
 };
 
 // Add photo or photos to album
-export const linkPhotoToAlbum = async (
-	req: Request<{ photoId: string }, unknown, AlbumId | AlbumId[]>,
-	res: Response,
-) => {
+export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
+	const userId = Number(req.token?.sub);
 
 	try {
 		const result = await prisma.album.update({
 			where: {
 				id: albumId,
+				userId: userId,
 			},
 			data: {
 				photos: {
