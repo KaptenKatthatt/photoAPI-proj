@@ -19,8 +19,6 @@ import { prisma } from "../lib/prisma.ts";
 export const index = async (req: Request, res: Response) => {
 	{
 		const userId = Number(req.token?.sub);
-
-		console.log("userId", userId);
 		try {
 			const albums = await getAlbums(userId);
 			res.send({

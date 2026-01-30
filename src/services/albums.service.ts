@@ -13,6 +13,11 @@ export const getAlbums = async (userId: number) => {
 		where: {
 			userId: userId,
 		},
+		select: {
+			id: true,
+			title: true,
+			userId: true,
+		},
 	});
 };
 
@@ -21,12 +26,14 @@ export const getAlbums = async (userId: number) => {
  */
 export const getAlbum = async (albumId: number, userId: number) => {
 	return await prisma.album.findUniqueOrThrow({
-		where: { id: albumId, userId },
-		include: {
-			user: {
-				select: { email: true, first_name: true, last_name: true },
-			},
-			photos: true,
+		where: {
+			id: albumId,
+			userId: userId,
+		},
+		select: {
+			id: true,
+			title: true,
+			userId: true,
 		},
 	});
 };
