@@ -45,9 +45,13 @@ export const createPhoto = async (validatedData: CreatePhotoData, userId: number
  * @param data Photo data
  * @returns
  */
-export const updatePhoto = async (photoId: number, validatedData: UpdatePhotoData) => {
+export const updatePhoto = async (
+	photoId: number,
+	validatedData: UpdatePhotoData,
+	userId: number,
+) => {
 	return await prisma.photo.update({
-		where: { id: photoId },
+		where: { id: photoId, userId: userId },
 		data: validatedData,
 	});
 };

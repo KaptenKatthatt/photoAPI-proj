@@ -11,19 +11,7 @@ import { matchedData } from "express-validator";
 import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 
 /**
- * Get all photos
- */
-// export const index = async (_req: Request, res: Response) => {
-// 	try {
-// 		const photos = await getPhotos();
-
-// 		res.send({ status: "success", data: photos });
-// 	} catch (error) {
-// 		handlePrismaError(res, error);
-// 	}
-// };
-/**
- * Get all photos
+ * Get all photos of logged in user
  */
 export const getAllPhotosOfUser = async (req: Request, res: Response) => {
 	if (!req.token) {
@@ -72,8 +60,12 @@ export const store = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * Update a single photo
+ */
 export const update = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
+	const userId = Number(req.token?.sub);
 
 	if (!photoId) {
 		res.status(400).send({ status: "error", message: "Invalid photo ID" });
@@ -83,7 +75,7 @@ export const update = async (req: Request, res: Response) => {
 	try {
 		const validatedData = matchedData<Partial<UpdatePhotoData>>(req);
 
-		const photo = await updatePhoto(photoId, validatedData);
+		const photo = await updatePhoto(photoId, validatedData, userId);
 
 		res.send({ status: "success", data: photo });
 	} catch (error) {
