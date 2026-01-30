@@ -63,9 +63,14 @@ export const show = async (req: Request, res: Response) => {
 // Create an album
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreateAlbumData>(req);
+	const userId = Number(req.token?.sub);
+
+	if (!userId) {
+		throw new Error("Could not find userId in token");
+	}
 
 	try {
-		const album = await createAlbum(validatedData);
+		const album = await createAlbum(validatedData, userId);
 		res.status(201).send({
 			status: "success",
 			data: {

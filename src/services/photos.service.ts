@@ -58,8 +58,8 @@ export const updatePhoto = async (photoId: number, validatedData: UpdatePhotoDat
  * @param photoId The ID of the Photo to delete
  */
 
-export const deletePhoto = async (photoId: number) => {
-	prisma.photo.delete({
-		where: { id: photoId },
+export const deletePhoto = async (photoId: number, userId: number) => {
+	return await prisma.photo.delete({
+		where: { id: photoId, userId: userId },
 	});
 };

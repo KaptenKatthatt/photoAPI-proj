@@ -38,9 +38,12 @@ export const getAlbum = async (albumId: number, userId: number) => {
  *
  * @param data Album data
  */
-export const createAlbum = async (validatedData: CreateAlbumData) => {
+export const createAlbum = async (validatedData: CreateAlbumData, userId: number) => {
 	return await prisma.album.create({
-		data: validatedData,
+		data: {
+			...validatedData,
+			userId: userId,
+		},
 	});
 };
 

@@ -96,6 +96,7 @@ export const update = async (req: Request, res: Response) => {
 //  */
 export const destroy = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
+	const userId = Number(req.token?.sub);
 
 	if (!photoId) {
 		res.status(400).send({ status: "error", message: "Invalid photo ID" });
@@ -103,7 +104,7 @@ export const destroy = async (req: Request, res: Response) => {
 	}
 
 	try {
-		await deletePhoto(photoId);
+		await deletePhoto(photoId, userId);
 		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
