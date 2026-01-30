@@ -20,6 +20,33 @@ export const index = async (_req: Request, res: Response) => {
 		handlePrismaError(res, error);
 	}
 };
+// Get profile of user this side of the fence
+export const getProfile = async (req: Request, res: Response) => {
+	// Check if the user exists
+	if (!req.token) {
+		throw new Error("No user found. Go away.");
+	}
+	const userId = Number(req.token.sub);
+
+	// Get user info from db
+	const user = await getUser(userId);
+
+	if (!user) {
+		res.status(404).send({ status: "fail", message: "User not found" });
+		return;
+	}
+
+	// Send user profile
+	res.send({
+		status: "success",
+		data: {
+			id: user.id,
+			first_name: user.first_name,
+			last_name: user.last_name,
+			email: user.email,
+		},
+	});
+};
 
 // Get a single user
 export const show = async (req: Request, res: Response) => {

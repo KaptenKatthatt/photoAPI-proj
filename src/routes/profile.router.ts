@@ -1,5 +1,5 @@
 import express from "express";
-import { destroy, index, show, store } from "../controllers/profile.controller.ts";
+import { destroy, getProfile, index, store } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules } from "../rules/user.rules.ts";
 
@@ -12,14 +12,15 @@ export const profileRouter = express.Router();
  * Get all profiles
  */
 
-profileRouter.get("/", index);
+profileRouter.get("/getAll", index);
 
 /**
  * GET /profile
  *
  * Get the logged in user's profile
  */
-profileRouter.get("/", show);
+// profileRouter.get("/", show);
+profileRouter.get("/", getProfile);
 
 /**
  * POST /profile
