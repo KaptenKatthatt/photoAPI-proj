@@ -1,6 +1,5 @@
 import { body } from "express-validator";
 import { validateEmailDoesNotExist } from "../services/user.service.ts";
-// import { getUserByEmail } from "../services/user.service.ts";
 
 export const createUserRules = [
 	body("first_name")
