@@ -1,5 +1,5 @@
 import express from "express";
-import { index, show, store } from "../controllers/profile.controller.ts";
+import { index, removeUser, show, store } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules } from "../rules/user.rules.ts";
 
@@ -37,22 +37,8 @@ profileRouter.post("/", createUserRules, validateRequest, store);
 // profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
 
 /**
- * GET /profile/books
+ * DELETE /profile/:userId
  *
- * Get the authenticated user's books
+ * Remove user
  */
-// profileRouter.get("/books", getBooks);
-
-/**
- * POST /profile/books
- *
- * Add books to the authenticated user
- */
-// profileRouter.post("/books", addBooks);
-
-/**
- * DELETE /profile/books/:bookId
- *
- * Remove book from the authenticated user
- */
-// profileRouter.delete("/books/:bookId", removeBook);
+profileRouter.delete("/:userId", removeUser);

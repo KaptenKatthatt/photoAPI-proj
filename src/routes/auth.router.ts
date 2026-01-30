@@ -1,7 +1,7 @@
 import express from "express";
 import { createUserRules } from "../rules/user.rules.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { registerUser } from "../controllers/auth.controller.ts";
+import { loginUser, registerUser } from "../controllers/auth.controller.ts";
 
 export const authRouter = express.Router();
 
@@ -12,9 +12,9 @@ export const authRouter = express.Router();
  */
 authRouter.post("/register", createUserRules, validateRequest, registerUser);
 
-// TODO Create login stuff
 /**
  * POST /login
  *
  * Login and authorize user
  */
+authRouter.post("/login", validateRequest, loginUser);

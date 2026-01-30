@@ -32,3 +32,10 @@ export const getUserByEmail = async (email: string) => {
 		where: { email },
 	});
 };
+
+// Delete a user
+export const deleteUser = async (userId: number) => {
+	return prisma.user.delete({
+		where: { id: userId },
+	});
+};

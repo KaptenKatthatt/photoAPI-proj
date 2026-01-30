@@ -141,3 +141,53 @@ export const linkPhotoToAlbum = async (
 		handlePrismaError(res, error);
 	}
 };
+
+// Connect an album to a user
+export const connectAlbumToUser = async (req: Request, res: Response) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		const result = await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: {
+				albums: {
+					connect: req.body,
+				},
+			},
+			include: {
+				albums: true,
+			},
+		});
+
+		res.send(result);
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// Disconnect album from user
+export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
+	const userId = Number(req.params.userId);
+
+	try {
+		const result = await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: {
+				albums: {
+					disconnect: req.body,
+				},
+			},
+			include: {
+				albums: true,
+			},
+		});
+
+		res.send(result);
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};

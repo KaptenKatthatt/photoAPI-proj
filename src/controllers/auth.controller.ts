@@ -8,8 +8,8 @@ import Debug from "debug";
 import jwt from "jsonwebtoken";
 import { matchedData } from "express-validator";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
-import { createUser, getUserByEmail } from "../services/user.service.ts";
-import type { JWTAccessTokenPayload } from "../types/JWT.types.ts";
+import { createUser, getUser, getUserByEmail } from "../services/user.service.ts";
+import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT.types.ts";
 import { StringValue } from "ms";
 
 // Create a debug instance
@@ -41,7 +41,7 @@ interface LoginData {
 /**
  * Register a new user for JWT authentication
  */
-const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreateUserData>(req);
 
 	// Create hash and salt for password
@@ -107,5 +107,82 @@ export const loginUser = async (req: Request, res: Response) => {
 	// Sign payload with refresh-token secret
 	const refreshToken = jwt.sign(refreshTokenPayload, REFRESH_TOKEN_SECRET, {
 		expiresIn: REFRESH_TOKEN_LIFETIME,
+	});
+
+	// Set refresh token as HTTP only cookie
+	res.cookie("refreshToken", refreshToken, {
+		httpOnly: true,
+		sameSite: "strict",
+		path: "/refresh",
+	});
+
+	// Respond with access token
+	res.send({
+		status: "success",
+		data: {
+			accessToken,
+		},
+	});
+};
+
+// Issue new access token using refresh token
+export const refreshAccessToken = async (req: Request, res: Response) => {
+	const refreshToken = (req.cookies as { refreshToken?: string }).refreshToken;
+
+	if (!refreshToken) {
+		debug("No refresh token found in cookies");
+		res.status(401).send({ status: "fail", message: "No refresh token provided" });
+		return;
+	}
+
+	// Verify refresh token
+	let refreshTokenPayload: JWTRefreshTokenPayload;
+
+	try {
+		refreshTokenPayload = jwt.verify(
+			refreshToken,
+			REFRESH_TOKEN_SECRET,
+		) as JWTRefreshTokenPayload;
+	} catch (error) {
+		debug("Failed to verify refresh token: %O", error);
+
+		// Check if token is expired
+		if (error instanceof jwt.TokenExpiredError) {
+			res.status(401).send({ status: "fail", message: "Refresh token expired" });
+			return;
+		}
+		res.status(401).send({ status: "fail", message: "Invalid refresh token" });
+		return;
+	}
+
+	// Find user associated with refresh token
+	debug("Refresh token valid for user ID %s", refreshTokenPayload.sub);
+	const userId = Number(refreshTokenPayload.sub);
+	const user = await getUser(userId);
+
+	if (!user) {
+		res.status(401).send({ status: "fail", message: "User not found" });
+		return;
+	}
+
+	// Create new access token payload
+	const newAccessTokenPayload: JWTAccessTokenPayload = {
+		sub: String(user.id),
+		firstName: user.first_name,
+		lastName: user.last_name,
+		email: user.email,
+	};
+
+	// Sign new access token
+	const accessToken = jwt.sign(newAccessTokenPayload, ACCESS_TOKEN_SECRET, {
+		expiresIn: ACCESS_TOKEN_LIFETIME,
+	});
+
+	// Respond with new access token
+	res.send({
+		status: "success",
+		data: {
+			accessToken,
+		},
 	});
 };
