@@ -2,6 +2,7 @@ import express from "express";
 import { destroy, getProfile, index, store } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules } from "../rules/user.rules.ts";
+import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
@@ -20,7 +21,7 @@ profileRouter.get("/getAll", index);
  * Get the logged in user's profile
  */
 // profileRouter.get("/", show);
-profileRouter.get("/", getProfile);
+profileRouter.get("/", verifyAccessToken, getProfile);
 
 /**
  * POST /profile

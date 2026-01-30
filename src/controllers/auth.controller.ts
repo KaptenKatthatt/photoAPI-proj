@@ -17,7 +17,7 @@ import { StringValue } from "ms";
 const debug = Debug("prisma-books:auth_controller");
 
 // Environment variables
-const ACCESS_TOKEN_LIFETIME = (process.env.ACCESS_TOKEN_LIFETIME as StringValue) || "1m";
+const ACCESS_TOKEN_LIFETIME = (process.env.ACCESS_TOKEN_LIFETIME as StringValue) || "5m";
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 const REFRESH_TOKEN_LIFETIME = (process.env.REFRESH_TOKEN_LIFETIME as StringValue) || "1d";
