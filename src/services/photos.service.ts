@@ -3,29 +3,27 @@ import type { CreatePhotoData, UpdatePhotoData } from "../types/Photo.types.ts";
 
 // Get all photos of logged in user
 export const getPhotos = async (userId: number) => {
-	const userPhotos = await prisma.user.findUniqueOrThrow({
+	return await prisma.photo.findMany({
+		where: { userId: userId },
 		select: {
-			photos: true,
-		},
-		where: {
-			id: userId,
+			id: true,
+			title: true,
+			url: true,
+			comment: true,
 		},
 	});
-	return userPhotos.photos;
-
-	// return await prisma.photo.findMany({
-	// 	where: {
-	// 		userId: userId,
-	// 	},
-	// });
-	// };
 };
 
 // Get a single photo by ID
 export const getPhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.findUniqueOrThrow({
 		where: { id: photoId, userId: userId },
-		include: { albums: true },
+		select: {
+			id: true,
+			title: true,
+			url: true,
+			comment: true,
+		},
 	});
 };
 

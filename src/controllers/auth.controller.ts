@@ -14,7 +14,7 @@ import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT
 import { StringValue } from "ms";
 
 // Create a debug instance
-const debug = Debug("prisma-books:auth_controller");
+const debug = Debug("prisma-photos:auth_controller");
 
 // Environment variables
 const ACCESS_TOKEN_LIFETIME = (process.env.ACCESS_TOKEN_LIFETIME as StringValue) || "5m";

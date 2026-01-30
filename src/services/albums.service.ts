@@ -2,10 +2,8 @@
  * Album services
  */
 
-import { first } from "lodash";
 import { prisma } from "../lib/prisma.ts";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
-import { title } from "node:process";
 
 /**
  * Get all albums of logged in user
@@ -48,10 +46,10 @@ export const createAlbum = async (validatedData: CreateAlbumData, userId: number
 };
 
 /**
- * Update a book
+ * Update an album
  *
- * @param bookId The ID of the Book to update
- * @param data Book data
+ * @param albumId The ID of the Album to update
+ * @param data Album data
  * @returns
  */
 export const updateAlbum = async (
