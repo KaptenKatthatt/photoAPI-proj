@@ -73,10 +73,11 @@ export const updateAlbum = async (
  *
  * @param albumId The ID of the Album to delete
  */
-export const deleteAlbum = async (albumId: number) => {
-	prisma.album.delete({
+export const deleteAlbum = async (albumId: number, userId: number) => {
+	return await prisma.album.delete({
 		where: {
 			id: albumId,
+			userId: userId,
 		},
 	});
 };

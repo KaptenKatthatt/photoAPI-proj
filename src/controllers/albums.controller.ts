@@ -112,6 +112,8 @@ export const update = async (req: Request, res: Response) => {
 
 export const destroy = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
+	const userId = Number(req.token?.sub);
+
 	if (!albumId) {
 		res.status(400).send({
 			message: "Invalid album ID",
@@ -119,7 +121,7 @@ export const destroy = async (req: Request, res: Response) => {
 		return;
 	}
 	try {
-		await deleteAlbum(albumId);
+		await deleteAlbum(albumId, userId);
 		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
