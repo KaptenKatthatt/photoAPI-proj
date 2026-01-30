@@ -1,5 +1,5 @@
 import express from "express";
-import { index, removeUser, show, store } from "../controllers/profile.controller.ts";
+import { destroy, index, show, store } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules } from "../rules/user.rules.ts";
 
@@ -41,4 +41,4 @@ profileRouter.post("/", createUserRules, validateRequest, store);
  *
  * Remove user
  */
-profileRouter.delete("/:userId", removeUser);
+profileRouter.delete("/:userId", destroy);
