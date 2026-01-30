@@ -39,3 +39,12 @@ export const deleteUser = async (userId: number) => {
 		where: { id: userId },
 	});
 };
+
+// Check if email already exists
+export const validateEmailDoesNotExist = async (value: string) => {
+	const user = await getUserByEmail(value);
+	// If a user with that email was found, throw an error
+	if (user) {
+		throw new Error("Email already exists");
+	}
+};
