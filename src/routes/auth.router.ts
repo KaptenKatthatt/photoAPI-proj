@@ -25,4 +25,4 @@ authRouter.post("/login", loginRules, validateRequest, loginUser);
  *
  * Issue a new access token using refresh token
  */
-authRouter.post("/refresh", loginRules, validateRequest, refreshAccessToken);
+authRouter.post("/refresh", refreshAccessToken);
