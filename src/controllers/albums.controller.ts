@@ -126,33 +126,6 @@ export const destroy = async (req: Request, res: Response) => {
 	}
 };
 
-// Add photo or photos to album
-export const linkPhotoToAlbum = async (req: Request, res: Response) => {
-	const albumId = Number(req.params.albumId);
-	const userId = Number(req.token?.sub);
-
-	try {
-		const result = await prisma.album.update({
-			where: {
-				id: albumId,
-				user_id: userId,
-			},
-			data: {
-				photos: {
-					connect: req.body,
-				},
-			},
-			include: {
-				photos: true,
-			},
-		});
-
-		res.send(result);
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
-
 // Connect an album to a user
 export const connectAlbumToUser = async (req: Request, res: Response) => {
 	const userId = Number(req.params.userId);

@@ -1,5 +1,5 @@
 import { prisma } from "../lib/prisma.ts";
-import type { CreatePhotoData, UpdatePhotoData } from "../types/Photo.types.ts";
+import type { CreatePhotoData, PhotoId, UpdatePhotoData } from "../types/Photo.types.ts";
 
 // Get all photos of logged in user
 export const getPhotos = async (userId: number) => {
@@ -29,10 +29,11 @@ export const getPhoto = async (photoId: number, userId: number) => {
 
 // Publish a new photo
 export const createPhoto = async (validatedData: CreatePhotoData, userId: number) => {
-	if (userId === null) throw new Error("Missing userId");
-
 	return await prisma.photo.create({
-		data: { ...validatedData, user: { connect: { id: userId } } },
+		data: {
+			...validatedData,
+			user_id: userId,
+		},
 	});
 };
 
@@ -63,5 +64,29 @@ export const updatePhoto = async (
 export const deletePhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.delete({
 		where: { id: photoId, user_id: userId },
+	});
+};
+
+/**
+ * Connect a photo to an album
+ */
+export const addPhotoToAlbum = async (
+	albumId: number,
+	userId: number,
+	photoIdOrIds: PhotoId | PhotoId[],
+) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId,
+			user_id: userId,
+		},
+		data: {
+			photos: {
+				connect: photoIdOrIds,
+			},
+		},
+		include: {
+			photos: true,
+		},
 	});
 };

@@ -2,6 +2,7 @@ import express from "express";
 import {
 	destroy,
 	getAllPhotosOfUser,
+	linkPhotoToAlbum,
 	// index,
 	show,
 	store,
@@ -49,3 +50,10 @@ photosRouter.patch("/:photoId", updatePhotoRules, validateRequest, update);
  * Delete a single photo
  */
 photosRouter.delete("/:photoId", destroy);
+
+/**
+ * POST /photos/:albumId/photos
+ *
+ * Add one or many photos to an album
+ */
+photosRouter.post("/:albumId/photos/", linkPhotoToAlbum);
