@@ -48,6 +48,7 @@ export const show = async (req: Request, res: Response) => {
 	}
 	try {
 		const photo = await getPhoto(photoId, userId);
+
 		res.send({ status: "success", data: photo });
 	} catch (error) {
 		handlePrismaError(res, error);

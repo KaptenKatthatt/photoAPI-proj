@@ -1,3 +1,4 @@
+import { checkIfValidRequest } from "../lib/errorHandlers/checkIfValidRequest.ts";
 import { prisma } from "../lib/prisma.ts";
 import type { CreatePhotoData, PhotoId, UpdatePhotoData } from "../types/Photo.types.ts";
 
@@ -16,25 +17,7 @@ export const getPhotos = async (userId: number) => {
 
 // Get a single photo by ID
 export const getPhoto = async (photoId: number, userId: number) => {
-	const photo = await prisma.photo.findUnique({
-		where: {
-			id: photoId,
-		},
-		select: {
-			id: true,
-			title: true,
-			url: true,
-			comment: true,
-			user_id: true,
-		},
-	});
-	if (!photo) {
-		throw new Error("Photo not found");
-	}
-	if (photo.user_id !== userId) {
-		throw new Error("This is not your photo. Go away.");
-	}
-
+	const photo = await checkIfValidRequest(photoId, userId);
 	return {
 		id: photo.id,
 		title: photo.title,
@@ -62,6 +45,8 @@ export const updatePhoto = async (
 	validatedData: UpdatePhotoData,
 	userId: number,
 ) => {
+	await checkIfValidRequest(photoId, userId);
+
 	return await prisma.photo.update({
 		where: { id: photoId, user_id: userId },
 		data: validatedData,
