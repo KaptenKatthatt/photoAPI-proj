@@ -40,7 +40,7 @@ export const getProfile = async (req: Request, res: Response) => {
 	const user = await getUser(userId);
 
 	if (!user) {
-		res.status(404).send({ status: "fail", message: "User not found" });
+		res.status(404).send({ status: "fail", data: { message: "User not found" } });
 		return;
 	}
 
@@ -64,7 +64,7 @@ export const show = async (req: Request, res: Response) => {
 	const user = await getUser(userId);
 
 	if (!user) {
-		res.status(404).send({ status: "fail", message: "User not found" });
+		res.status(404).send({ status: "fail", data: { message: "User not found" } });
 		return;
 	}
 
@@ -138,7 +138,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 export const destroy = async (req: Request, res: Response) => {
 	const userId = Number(req.params.userId);
 	if (!userId) {
-		res.status(400).send({ status: "fail", message: "User ID not found" });
+		res.status(400).send({ status: "fail", data: { message: "User ID not found" } });
 		return;
 	}
 

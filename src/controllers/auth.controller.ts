@@ -87,7 +87,7 @@ export const loginUser = async (req: Request, res: Response) => {
 	// Look for user in database
 	const user = await getUserByEmail(email);
 	if (!user) {
-		res.status(401).send({ status: "fail", message: "Invalid email or password" });
+		res.status(401).send({ status: "fail", data: { message: "Invalid email or password" } });
 		return;
 	}
 
@@ -96,7 +96,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 	if (!isPasswordValid) {
 		debug("Invalid password for user %s", email);
-		res.status(401).send({ status: "fail", message: "Invalid email or password" });
+		res.status(401).send({ status: "fail", data: { message: "Invalid email or password" } });
 		return;
 	}
 	console.log("Login successful");
@@ -146,7 +146,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 
 	if (!refreshToken) {
 		debug("No refresh token found in cookies");
-		res.status(401).send({ status: "fail", message: "No refresh token provided" });
+		res.status(401).send({ status: "fail", data: { message: "No refresh token provided" } });
 		return;
 	}
 
@@ -163,10 +163,10 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 
 		// Check if token is expired
 		if (error instanceof jwt.TokenExpiredError) {
-			res.status(401).send({ status: "fail", message: "Refresh token expired" });
+			res.status(401).send({ status: "fail", data: { message: "Refresh token expired" } });
 			return;
 		}
-		res.status(401).send({ status: "fail", message: "Invalid refresh token" });
+		res.status(401).send({ status: "fail", data: { message: "Invalid refresh token" } });
 		return;
 	}
 
@@ -176,7 +176,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 	const user = await getUser(userId);
 
 	if (!user) {
-		res.status(401).send({ status: "fail", message: "User not found" });
+		res.status(401).send({ status: "fail", data: { message: "User not found" } });
 		return;
 	}
 

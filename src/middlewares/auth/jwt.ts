@@ -21,7 +21,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 		debug("No authorization header found.");
 		res.status(401).send({
 			status: "fail",
-			message: "No authorization header found. Trespassers will be shot on sight.",
+			data: { message: "No authorization header found. Trespassers will be shot on sight." },
 		});
 		return;
 	}
@@ -34,7 +34,9 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 		debug("Authorization scheme is not Bearer.");
 		res.status(401).send({
 			status: "fail",
-			message: "Wrong authorization header found. Trespassers will be shot on sight.",
+			data: {
+				message: "Wrong authorization header found. Trespassers will be shot on sight.",
+			},
 		});
 		return;
 	}
@@ -44,7 +46,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 		debug("Missing or invalid access token provided");
 		res.status(401).send({
 			status: "fail",
-			message: "Missing or invalid access token",
+			data: { message: "Missing or invalid access token" },
 		});
 		return;
 	}
@@ -62,13 +64,13 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 		if (error instanceof jwt.TokenExpiredError) {
 			res.status(401).send({
 				status: "fail",
-				message: "Auth token expired. You need to leave. Now.",
+				data: { message: "Auth token expired. You need to leave. Now." },
 			});
 			return;
 		}
 		res.status(401).send({
 			status: "fail",
-			message: "Denied. You need to leave. Now.",
+			data: { message: "Denied. You need to leave. Now." },
 		});
 		return;
 	}
