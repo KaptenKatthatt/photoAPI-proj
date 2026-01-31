@@ -23,9 +23,7 @@ export const index = async (req: Request, res: Response) => {
 			const albums = await getAlbums(userId);
 			res.send({
 				status: "success",
-				data: {
-					albums,
-				},
+				data: albums,
 			});
 		} catch (error) {
 			handlePrismaError(res, error);
@@ -49,9 +47,7 @@ export const show = async (req: Request, res: Response) => {
 		const album = await getAlbum(albumId, userId);
 		res.send({
 			status: "success",
-			data: {
-				album,
-			},
+			data: album,
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -71,9 +67,7 @@ export const store = async (req: Request, res: Response) => {
 		const album = await createAlbum(validatedData, userId);
 		res.status(201).send({
 			status: "success",
-			data: {
-				album,
-			},
+			data: album,
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -97,9 +91,7 @@ export const update = async (req: Request, res: Response) => {
 		const album = await updateAlbum(albumId, validatedData, userId);
 		res.send({
 			status: "success",
-			data: {
-				album,
-			},
+			data: album,
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
