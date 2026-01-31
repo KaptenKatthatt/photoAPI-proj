@@ -6,10 +6,11 @@ import {
 	deletePhoto,
 	getPhoto,
 	getPhotos,
+	removePhotoFromAlbum,
 	updatePhoto,
 } from "../services/photos.service.ts";
 import { matchedData } from "express-validator";
-import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
+import { CreatePhotoData, type PhotoId, type UpdatePhotoData } from "../types/Photo.types.ts";
 
 /**
  * Get all photos of logged in user
@@ -147,6 +148,28 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 		const result = await addPhotoToAlbum(albumId, userId, req.body);
 
 		res.status(201).send({ status: "success", data: result });
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// Remove photo or photos from album
+export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
+	const albumId = Number(req.params.albumId);
+
+	if (!req.token) {
+		throw new Error("User not found.");
+	}
+	const userId = Number(req.token.sub);
+
+	if (!albumId) {
+		res.status(400).send({ status: "error", message: "Album ID not found" });
+		return;
+	}
+
+	try {
+		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}

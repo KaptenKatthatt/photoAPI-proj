@@ -6,6 +6,7 @@ import {
 	// index,
 	show,
 	store,
+	unlinkPhotoFromAlbum,
 	update,
 } from "../controllers/photos.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
@@ -57,3 +58,10 @@ photosRouter.delete("/:photoId", destroy);
  * Add one or many photos to an album
  */
 photosRouter.post("/:albumId/photos/", linkPhotoToAlbum);
+
+/**
+ * POST /photos/:albumId/photos
+ *
+ * Disconnect photo from album
+ */
+photosRouter.delete("/:albumId/photos/", unlinkPhotoFromAlbum);
