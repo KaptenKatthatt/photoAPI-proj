@@ -5,7 +5,6 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import {
-	addPhotoToAlbum,
 	createAlbum,
 	deleteAlbum,
 	getAlbum,

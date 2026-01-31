@@ -2,8 +2,6 @@ import express from "express";
 import {
 	destroy,
 	getAllPhotosOfUser,
-	linkPhotoToAlbum,
-	// index,
 	show,
 	store,
 	unlinkPhotoFromAlbum,

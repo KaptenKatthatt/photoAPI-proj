@@ -3,7 +3,6 @@ import { validateRequest } from "../middlewares/validateRequest.ts";
 import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
 import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
-import { addPhotosToAlbumRules } from "../rules/photo.rules.ts";
 import { linkPhotoToAlbum } from "../controllers/photos.controller.ts";
 
 // Create a Albums router
@@ -51,4 +50,4 @@ albumsRouter.delete("/:albumId", destroy);
  *
  * Add photos to an album
  */
-albumsRouter.post("/:albumId/photos", addPhotosToAlbumRules, validateRequest, linkPhotoToAlbum);
+albumsRouter.post("/:albumId/photos", validateRequest, linkPhotoToAlbum);
