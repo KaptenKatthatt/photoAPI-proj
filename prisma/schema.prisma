@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Album {
-  id     Int     @id @default(autoincrement())
-  title  String
-  photos Photo[]
-  user   User?   @relation(fields: [userId], references: [id])
-  userId Int?
+  id      Int     @id @default(autoincrement())
+  title   String
+  photos  Photo[]
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id Int?
 }
 
 model Photo {
@@ -21,8 +21,8 @@ model Photo {
   url     String  @db.Text // Text instead of varchar to support URLs longer than 191 char.
   comment String?
   albums  Album[]
-  user    User?   @relation(fields: [userId], references: [id])
-  userId  Int?
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id Int?
 }
 
 model User {
