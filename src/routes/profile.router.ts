@@ -1,11 +1,5 @@
 import express from "express";
-import {
-	destroy,
-	getProfile,
-	index,
-	store,
-	updateProfile,
-} from "../controllers/profile.controller.ts";
+import { destroy, getProfile, store, updateProfile } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
@@ -13,16 +7,16 @@ import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 // Create a Profile router
 export const profileRouter = express.Router();
 
-// Apply authentication middleware for all routes
-profileRouter.use(verifyAccessToken);
-
 /**
  * GET /profile
  *
- * Get all profiles (remove this route later)
+ * Get all profiles (public for tests)
  */
 
-profileRouter.get("/getAll", index);
+// profileRouter.get("/getAll", index);
+
+// Apply authentication middleware for the remaining profile routes
+profileRouter.use(verifyAccessToken);
 
 /**
  * GET /profile

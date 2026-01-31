@@ -49,6 +49,15 @@ export const validateEmailDoesNotExist = async (value: string) => {
 	}
 };
 
+// Check if email exists (used for login)
+export const validateEmailExists = async (value: string) => {
+	const user = await getUserByEmail(value);
+	// If no user with that email was found, throw an error
+	if (!user) {
+		throw new Error("Email does not exist");
+	}
+};
+
 // Update user profile
 export const updateUserProfile = async (userId: number, data: UpdateUserData) => {
 	return prisma.user.update({
