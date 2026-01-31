@@ -11,7 +11,7 @@ export const checkIfValidRequest = async (photoId: number, userId: number) => {
 		throw new Error("PHOTO_NOT_FOUND");
 	}
 	if (photo.user_id !== userId) {
-		throw new Error("PHOTO_NOT_FOUND");
+		throw new Error("FORBIDDEN");
 	}
 
 	return photo;
