@@ -2,6 +2,9 @@ import { body } from "express-validator";
 
 export const createPhotoRules = [
 	body("title")
+		.notEmpty()
+		.withMessage("Title is required")
+		.bail()
 		.isString()
 		.withMessage("Title must be a string")
 		.bail()
@@ -9,7 +12,14 @@ export const createPhotoRules = [
 		.isLength({ min: 3 })
 		.withMessage("Title must be at least 3 characters"),
 
-	body("url").trim().isURL().withMessage("URL must be a valid URL").bail(),
+	body("url")
+		.trim()
+		.notEmpty()
+		.withMessage("URL is required")
+		.bail()
+		.isURL()
+		.withMessage("URL must be a valid URL")
+		.bail(),
 
 	body("comment")
 		.optional()
@@ -23,6 +33,9 @@ export const createPhotoRules = [
 
 export const updatePhotoRules = [
 	body("title")
+		.notEmpty()
+		.withMessage("Title cannot be empty")
+		.bail()
 		.optional()
 		.isString()
 		.withMessage("Title must be a string")
@@ -31,7 +44,15 @@ export const updatePhotoRules = [
 		.isLength({ min: 3 })
 		.withMessage("Title must be at least 3 characters"),
 
-	body("url").optional().isURL().withMessage("URL must be a valid URL").bail().trim(),
+	body("url")
+		.notEmpty()
+		.withMessage("URL cannot be empty")
+		.bail()
+		.optional()
+		.isURL()
+		.withMessage("URL must be a valid URL")
+		.bail()
+		.trim(),
 
 	body("comment")
 		.optional()

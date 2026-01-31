@@ -2,6 +2,9 @@ import { body } from "express-validator";
 
 export const createAlbumRules = [
 	body("title")
+		.notEmpty()
+		.withMessage("Title is required")
+		.bail()
 		.isString()
 		.withMessage("Title must be a string")
 		.bail()
@@ -12,6 +15,9 @@ export const createAlbumRules = [
 
 export const updateAlbumRules = [
 	body("title")
+		.notEmpty()
+		.withMessage("Title cannot be empty")
+		.bail()
 		.optional()
 		.isString()
 		.withMessage("Title must be a string")
