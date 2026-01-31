@@ -6,3 +6,4 @@
 .env
 
 /generated/prisma
+/docs
