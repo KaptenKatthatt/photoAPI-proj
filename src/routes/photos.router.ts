@@ -33,9 +33,9 @@ photosRouter.get("/:photoId", show);
 /**
  * POST /photos
  *
- * Create a photo and attach it to the user
+ * Add one or many photos to the user profile
  */
-photosRouter.post("/", createPhotoRules, store);
+photosRouter.post("/", createPhotoRules, validateRequest, store);
 
 /**
  * PATCH /photos

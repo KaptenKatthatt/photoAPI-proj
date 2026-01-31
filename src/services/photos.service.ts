@@ -30,10 +30,7 @@ export const getPhoto = async (photoId: number, userId: number) => {
 // Publish a new photo
 export const createPhoto = async (validatedData: CreatePhotoData, userId: number) => {
 	return await prisma.photo.create({
-		data: {
-			...validatedData,
-			user_id: userId,
-		},
+		data: { ...validatedData, user_id: userId },
 	});
 };
 
