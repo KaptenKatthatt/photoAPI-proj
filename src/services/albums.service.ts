@@ -34,6 +34,7 @@ export const getAlbum = async (albumId: number, userId: number) => {
 			id: true,
 			title: true,
 			user_id: true,
+			photos: true,
 		},
 	});
 };
