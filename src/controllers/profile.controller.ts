@@ -86,7 +86,12 @@ export const store = async (req: Request, res: Response) => {
 		const user = await createUser(validatedData);
 		res.status(201).send({
 			status: "success",
-			data: { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name },
+			data: {
+				id: user.id,
+				email: user.email,
+				first_name: user.first_name,
+				last_name: user.last_name,
+			},
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -115,7 +120,12 @@ export const updateProfile = async (req: Request, res: Response) => {
 
 		res.send({
 			status: "success",
-			data: { user },
+			data: {
+				id: user.id,
+				email: user.email,
+				first_name: user.first_name,
+				last_name: user.last_name,
+			},
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -137,7 +147,12 @@ export const destroy = async (req: Request, res: Response) => {
 
 		res.status(204).send({
 			status: "success",
-			data: { deletedUser },
+			data: {
+				id: deletedUser.id,
+				email: deletedUser.email,
+				first_name: deletedUser.first_name,
+				last_name: deletedUser.last_name,
+			},
 		});
 	} catch (error) {
 		handlePrismaError(res, error);

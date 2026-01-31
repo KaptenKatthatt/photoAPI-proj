@@ -5,15 +5,18 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import {
+	addPhotoToAlbum,
 	createAlbum,
 	deleteAlbum,
 	getAlbum,
 	getAlbums,
+	removePhotoFromAlbum,
 	updateAlbum,
 } from "../services/albums.service.ts";
 import { matchedData } from "express-validator";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
+import type { PhotoId } from "../types/Photo.types.ts";
 
 // Get all albums of logged in user
 export const index = async (req: Request, res: Response) => {
@@ -163,6 +166,28 @@ export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
 		});
 
 		res.send(result);
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// Remove photo or photos from album
+export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
+	const albumId = Number(req.params.albumId);
+
+	if (!req.token) {
+		throw new Error("User not found.");
+	}
+	const userId = Number(req.token.sub);
+
+	if (!albumId) {
+		res.status(400).send({ status: "error", message: "Album ID not found" });
+		return;
+	}
+
+	try {
+		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}

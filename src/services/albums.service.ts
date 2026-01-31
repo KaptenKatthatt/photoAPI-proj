@@ -4,6 +4,7 @@
 
 import { prisma } from "../lib/prisma.ts";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
+import type { PhotoId } from "../types/Photo.types.ts";
 
 /**
  * Get all albums of logged in user
@@ -81,6 +82,52 @@ export const deleteAlbum = async (albumId: number, userId: number) => {
 		where: {
 			id: albumId,
 			user_id: userId,
+		},
+	});
+};
+
+/**
+ * Connect one or many photos to an album
+ */
+export const addPhotoToAlbum = async (
+	albumId: number,
+	userId: number,
+	photoIdOrIds: PhotoId | PhotoId[],
+) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId,
+			user_id: userId,
+		},
+		data: {
+			photos: {
+				connect: photoIdOrIds,
+			},
+		},
+		include: {
+			photos: true,
+		},
+	});
+};
+
+// Disconnect one or many photos from an album
+export const removePhotoFromAlbum = async (
+	albumId: number,
+	userId: number,
+	photoIdOrIds: PhotoId | PhotoId[],
+) => {
+	return await prisma.album.update({
+		where: {
+			id: albumId,
+			user_id: userId,
+		},
+		data: {
+			photos: {
+				disconnect: photoIdOrIds,
+			},
+		},
+		include: {
+			photos: true,
 		},
 	});
 };

@@ -55,13 +55,6 @@ photosRouter.delete("/:photoId", destroy);
 /**
  * POST /photos/:albumId/photos
  *
- * Add one or many photos to an album
- */
-photosRouter.post("/:albumId/photos/", linkPhotoToAlbum);
-
-/**
- * POST /photos/:albumId/photos
- *
  * Disconnect photo from album
  */
 photosRouter.delete("/:albumId/photos/", unlinkPhotoFromAlbum);
