@@ -12,6 +12,7 @@ import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import { createUser, getUser, getUserByEmail } from "../services/user.service.ts";
 import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT.types.ts";
 import { StringValue } from "ms";
+import { first } from "lodash";
 
 // Create a debug instance
 const debug = Debug("prisma-photos:auth_controller");
@@ -54,11 +55,23 @@ export const registerUser = async (req: Request, res: Response) => {
 			...validatedData,
 			password: hashed_password,
 		});
-		const { password: _password, ...userWithoutPassword } = user;
+		// const { password: _password, ...userWithoutPassword } = user;
+
+		/*
+				RESPONSE EXAMPLE
+		{
+		"status": "success",
+		"data": {
+			"email": "jn@badcameraphotography.com",
+			"first_name": "Johan",
+			"last_name": "Nordström"
+		}
+		}
+		*/
 
 		res.status(201).send({
 			status: "success",
-			data: { user: userWithoutPassword },
+			data: { email: user.email, first_name: user.first_name, last_name: user.last_name },
 		});
 	} catch (error) {
 		handlePrismaError(res, error);

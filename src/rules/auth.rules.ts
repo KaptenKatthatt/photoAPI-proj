@@ -1,7 +1,12 @@
 import { body } from "express-validator";
+import { validateEmailDoesNotExist } from "../services/user.service.ts";
 
 export const loginRules = [
-	body("email").trim().isEmail().withMessage("Email must be a valid email address"),
+	body("email")
+		.trim()
+		.isEmail()
+		.withMessage("Email must be a valid email address")
+		.custom(validateEmailDoesNotExist),
 
 	body("password")
 		.notEmpty()
