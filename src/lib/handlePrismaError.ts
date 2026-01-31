@@ -9,11 +9,11 @@ import { Prisma } from "../../generated/prisma/client.ts";
 export const handlePrismaError = (res: Response, err: unknown) => {
 	if (err instanceof Error) {
 		if (err.message === "PHOTO_NOT_FOUND") {
-			res.status(404).send({ status: "error", message: "Photo not found" });
+			res.status(404).send({ status: "fail", data: "Photo not found" });
 			return;
 		}
 		if (err.message === "FORBIDDEN") {
-			res.status(403).send({ status: "error", message: "Not your photo. Go away." });
+			res.status(403).send({ status: "fail", data: "Not your photo. Go away." });
 			return;
 		}
 	}
