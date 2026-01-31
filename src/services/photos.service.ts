@@ -65,7 +65,7 @@ export const deletePhoto = async (photoId: number, userId: number) => {
 };
 
 /**
- * Connect a photo to an album
+ * Connect one or many photos to an album
  */
 export const addPhotoToAlbum = async (
 	albumId: number,
