@@ -11,12 +11,12 @@ import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 export const getAlbums = async (userId: number) => {
 	return await prisma.album.findMany({
 		where: {
-			userId: userId,
+			user_id: userId,
 		},
 		select: {
 			id: true,
 			title: true,
-			userId: true,
+			user_id: true,
 		},
 	});
 };
@@ -28,12 +28,12 @@ export const getAlbum = async (albumId: number, userId: number) => {
 	return await prisma.album.findUniqueOrThrow({
 		where: {
 			id: albumId,
-			userId: userId,
+			user_id: userId,
 		},
 		select: {
 			id: true,
 			title: true,
-			userId: true,
+			user_id: true,
 		},
 	});
 };
@@ -47,7 +47,7 @@ export const createAlbum = async (validatedData: CreateAlbumData, userId: number
 	return await prisma.album.create({
 		data: {
 			...validatedData,
-			userId: userId,
+			user_id: userId,
 		},
 	});
 };
@@ -67,7 +67,7 @@ export const updateAlbum = async (
 	return await prisma.album.update({
 		where: {
 			id: albumId,
-			userId: userId,
+			user_id: userId,
 		},
 		data: validatedData,
 	});
@@ -82,7 +82,7 @@ export const deleteAlbum = async (albumId: number, userId: number) => {
 	return await prisma.album.delete({
 		where: {
 			id: albumId,
-			userId: userId,
+			user_id: userId,
 		},
 	});
 };

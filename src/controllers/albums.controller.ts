@@ -135,7 +135,7 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 		const result = await prisma.album.update({
 			where: {
 				id: albumId,
-				userId: userId,
+				user_id: userId,
 			},
 			data: {
 				photos: {

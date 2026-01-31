@@ -4,7 +4,7 @@ import type { CreatePhotoData, UpdatePhotoData } from "../types/Photo.types.ts";
 // Get all photos of logged in user
 export const getPhotos = async (userId: number) => {
 	return await prisma.photo.findMany({
-		where: { userId: userId },
+		where: { user_id: userId },
 		select: {
 			id: true,
 			title: true,
@@ -17,7 +17,7 @@ export const getPhotos = async (userId: number) => {
 // Get a single photo by ID
 export const getPhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.findUniqueOrThrow({
-		where: { id: photoId, userId: userId },
+		where: { id: photoId, user_id: userId },
 		select: {
 			id: true,
 			title: true,
@@ -49,7 +49,7 @@ export const updatePhoto = async (
 	userId: number,
 ) => {
 	return await prisma.photo.update({
-		where: { id: photoId, userId: userId },
+		where: { id: photoId, user_id: userId },
 		data: validatedData,
 	});
 };
@@ -62,6 +62,6 @@ export const updatePhoto = async (
 
 export const deletePhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.delete({
-		where: { id: photoId, userId: userId },
+		where: { id: photoId, user_id: userId },
 	});
 };
