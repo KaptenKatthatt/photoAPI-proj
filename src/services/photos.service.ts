@@ -70,6 +70,22 @@ export const addPhotoToAlbum = async (
 	userId: number,
 	photoIdOrIds: PhotoId | PhotoId[],
 ) => {
+	// Check if incoming photos is many(array) or a single photo
+	const photoIds = Array.isArray(photoIdOrIds)
+		? photoIdOrIds.map((photo) => photo.id)
+		: [photoIdOrIds.id];
+
+	const photos = await prisma.photo.findMany({
+		where: {
+			id: { in: photoIds },
+			user_id: userId,
+		},
+	});
+	// If not the same amount of photos is found as we are trying to add, throw an error
+	if (photos.length !== photoIds.length) {
+		throw new Error("One or more photos not found or do not belong to you");
+	}
+
 	return await prisma.album.update({
 		where: {
 			id: albumId,
