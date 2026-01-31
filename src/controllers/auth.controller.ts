@@ -136,7 +136,7 @@ export const loginUser = async (req: Request, res: Response) => {
 	res.send({
 		status: "success",
 		data: {
-			accessToken,
+			access_token: accessToken,
 		},
 	});
 };
@@ -198,10 +198,20 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 	res.send({
 		status: "success",
 		data: {
-			accessToken,
+			access_token: accessToken,
 		},
 	});
 };
 
 // Refresh access token using refresh token
 // export const refreshAccessToken = async (req: Request, res: Response) => {
+
+/*
+	RESPONSE EXAMPLE
+	{
+  "status": "success",
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6IkpvaGFuIE5vcmRzdHLDtm0iLCJlbWFpbCI6ImpuQHRoZWhpdmVyZXNpc3RhbmNlLmNvbSIsImlhdCI6MTczODgzNTk0OCwiZXhwIjoxNzM4ODM2ODQ4fQ.QTgUMXFWrT5OlmTN3k337mSEw8MJPXSiYUIaWbG5kJI"
+  }
+}
+*/
