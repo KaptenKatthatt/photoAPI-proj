@@ -16,15 +16,31 @@ export const getPhotos = async (userId: number) => {
 
 // Get a single photo by ID
 export const getPhoto = async (photoId: number, userId: number) => {
-	return await prisma.photo.findUniqueOrThrow({
-		where: { id: photoId, user_id: userId },
+	const photo = await prisma.photo.findUnique({
+		where: {
+			id: photoId,
+		},
 		select: {
 			id: true,
 			title: true,
 			url: true,
 			comment: true,
+			user_id: true,
 		},
 	});
+	if (!photo) {
+		throw new Error("Photo not found");
+	}
+	if (photo.user_id !== userId) {
+		throw new Error("This is not your photo. Go away.");
+	}
+
+	return {
+		id: photo.id,
+		title: photo.title,
+		url: photo.url,
+		comment: photo.comment,
+	};
 };
 
 // Publish a new photo
