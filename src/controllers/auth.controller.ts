@@ -12,7 +12,6 @@ import { handlePrismaError } from "../lib/handlePrismaError.ts";
 import { createUser, getUser, getUserByEmail } from "../services/user.service.ts";
 import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT.types.ts";
 import { StringValue } from "ms";
-import { first } from "lodash";
 
 // Create a debug instance
 const debug = Debug("prisma-photos:auth_controller");

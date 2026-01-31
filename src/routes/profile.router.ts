@@ -13,6 +13,9 @@ import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 // Create a Profile router
 export const profileRouter = express.Router();
 
+// Apply authentication middleware for all routes
+profileRouter.use(verifyAccessToken);
+
 /**
  * GET /profile
  *
@@ -20,9 +23,6 @@ export const profileRouter = express.Router();
  */
 
 profileRouter.get("/getAll", index);
-
-// Apply authentication middleware for the remaining profile routes
-profileRouter.use(verifyAccessToken);
 
 /**
  * GET /profile

@@ -22,7 +22,7 @@ export const index = async (_req: Request, res: Response) => {
 		const users = await getUsers();
 		res.send({
 			status: "success",
-			data: { users },
+			data: users,
 		});
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -86,7 +86,7 @@ export const store = async (req: Request, res: Response) => {
 		const user = await createUser(validatedData);
 		res.status(201).send({
 			status: "success",
-			data: { user },
+			data: { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name },
 		});
 	} catch (error) {
 		handlePrismaError(res, error);

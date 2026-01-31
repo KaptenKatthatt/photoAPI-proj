@@ -39,6 +39,16 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 		return;
 	}
 
+	// Explicitly treat 'null' or missing tokens as invalid
+	if (!token || token === "null" || token === "undefined") {
+		debug("Missing or invalid access token provided");
+		res.status(401).send({
+			status: "fail",
+			message: "Missing or invalid access token",
+		});
+		return;
+	}
+
 	// Verify access token and take all the stuff
 	try {
 		const accessTokenPayload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JWTAccessTokenPayload;
