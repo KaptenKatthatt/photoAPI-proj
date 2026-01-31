@@ -53,13 +53,11 @@ export const updatePhoto = async (
 };
 
 /**
- * Delete a photo
- *
- * @param photoId The ID of the Photo to delete
+ * Delete a photo and all its connections to albums
  */
 
 export const deletePhoto = async (photoId: number, userId: number) => {
-	return await prisma.photo.delete({
+	return await prisma.photo.deleteMany({
 		where: { id: photoId, user_id: userId },
 	});
 };

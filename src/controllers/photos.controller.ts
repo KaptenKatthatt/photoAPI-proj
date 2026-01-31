@@ -16,7 +16,7 @@ import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
  */
 export const getAllPhotosOfUser = async (req: Request, res: Response) => {
 	if (!req.token) {
-		throw new Error("Could not get user from token");
+		throw new Error("Unauthorized. Could not get user from token.");
 	}
 	const userId = Number(req.token.sub);
 
@@ -34,7 +34,12 @@ export const getAllPhotosOfUser = async (req: Request, res: Response) => {
  */
 export const show = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
-	const userId = Number(req.token?.sub);
+
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+
+	const userId = Number(req.token.sub);
 
 	if (!photoId) {
 		res.status(400).send({ status: "error", message: "Invalid photo ID" });
@@ -53,7 +58,10 @@ export const show = async (req: Request, res: Response) => {
  */
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreatePhotoData>(req);
-	const userId = Number(req.token?.sub);
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+	const userId = Number(req.token.sub);
 
 	if (!userId) {
 		throw new Error("Could not find userId in token");
@@ -72,7 +80,11 @@ export const store = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
-	const userId = Number(req.token?.sub);
+
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+	const userId = Number(req.token.sub);
 
 	if (!photoId) {
 		res.status(400).send({ status: "error", message: "Invalid photo ID" });
@@ -91,11 +103,14 @@ export const update = async (req: Request, res: Response) => {
 };
 
 // /**
-//  * Delete a single photo
+//  * Delete a single photo from db and disconnect it from albums
 //  */
 export const destroy = async (req: Request, res: Response) => {
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
 	const photoId = Number(req.params.photoId);
-	const userId = Number(req.token?.sub);
+	const userId = Number(req.token.sub);
 
 	if (!photoId) {
 		res.status(400).send({ status: "error", message: "Invalid photo ID" });
@@ -103,7 +118,11 @@ export const destroy = async (req: Request, res: Response) => {
 	}
 
 	try {
-		await deletePhoto(photoId, userId);
+		const result = await deletePhoto(photoId, userId);
+		if (result.count === 0) {
+			res.status(404).send({ status: "error", message: "Wrong id, photo not found." });
+			return;
+		}
 		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
@@ -113,7 +132,11 @@ export const destroy = async (req: Request, res: Response) => {
 // Add photo or photos to album
 export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
-	const userId = Number(req.token?.sub);
+
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+	const userId = Number(req.token.sub);
 
 	if (!albumId) {
 		res.status(400).send({ status: "error", message: "Invalid album ID" });
