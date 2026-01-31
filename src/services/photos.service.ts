@@ -82,9 +82,9 @@ export const addPhotoToAlbum = async (
 			user_id: userId,
 		},
 	});
-	// If not the same amount of photos is found as we are trying to add, throw an error
+	// If not the same amount of photos is found as we are trying to add, throw an error but don't specify what photo is missing because of security reasons.
 	if (photos.length !== photoIds.length) {
-		throw new Error("One or more photos not found or do not belong to you");
+		throw new Error("PHOTO_NOT_FOUND");
 	}
 
 	return await prisma.album.update({
