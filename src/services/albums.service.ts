@@ -56,9 +56,6 @@ export const createAlbum = async (validatedData: CreateAlbumData, userId: number
 /**
  * Update an album
  *
- * @param albumId The ID of the Album to update
- * @param data Album data
- * @returns
  */
 export const updateAlbum = async (
 	albumId: number,

@@ -1,5 +1,5 @@
 import { prisma } from "../lib/prisma.ts";
-import type { CreateUserData } from "../types/User.types.ts";
+import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
 
 /**
  * Get a User
@@ -47,4 +47,12 @@ export const validateEmailDoesNotExist = async (value: string) => {
 	if (user) {
 		throw new Error("Email already exists");
 	}
+};
+
+// Update user profile
+export const updateUserProfile = async (userId: number, data: UpdateUserData) => {
+	return prisma.user.update({
+		where: { id: userId },
+		data,
+	});
 };

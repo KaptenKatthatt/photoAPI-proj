@@ -1,7 +1,13 @@
 import express from "express";
-import { destroy, getProfile, index, store } from "../controllers/profile.controller.ts";
+import {
+	destroy,
+	getProfile,
+	index,
+	store,
+	updateProfile,
+} from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { createUserRules } from "../rules/user.rules.ts";
+import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 
 // Create a Profile router
@@ -37,7 +43,7 @@ profileRouter.post("/", createUserRules, validateRequest, store);
  *
  * Update the authenticated user's profile
  */
-// profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
+profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
 
 /**
  * DELETE /profile/:userId

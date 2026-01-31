@@ -1,12 +1,20 @@
 /**
  * Profile Controller
  */
-
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { createUser, deleteUser, getUser, getUsers } from "../services/user.service.ts";
+import {
+	createUser,
+	deleteUser,
+	getUser,
+	getUsers,
+	updateUserProfile,
+} from "../services/user.service.ts";
 import { matchedData } from "express-validator";
-import type { CreateUserData } from "../types/User.types.ts";
+import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
+
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 // Get all users
 export const index = async (_req: Request, res: Response) => {
@@ -88,8 +96,31 @@ export const store = async (req: Request, res: Response) => {
 /**
  * Update a user profile
  */
-// export const updateProfile = async (req: Request, res: Response) => {
-// }
+export const updateProfile = async (req: Request, res: Response) => {
+	if (!req.token) {
+		throw new Error("No user found. Go away.");
+	}
+
+	const userId = Number(req.token.sub);
+	const validatedData = matchedData<UpdateUserData>(req);
+
+	// If request to update password, clone data to avoid overwriting other incoming data
+	const data = { ...validatedData };
+	if (data.password) {
+		data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
+	}
+
+	try {
+		const user = await updateUserProfile(userId, data);
+
+		res.send({
+			status: "success",
+			data: { user },
+		});
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
 
 /***
  * Remove a user
