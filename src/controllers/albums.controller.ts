@@ -15,7 +15,6 @@ import {
 import { matchedData } from "express-validator";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
-import type { PhotoId } from "../types/Photo.types.ts";
 import { addPhotoToAlbum } from "../services/photos.service.ts";
 
 // Get all albums of logged in user
@@ -173,27 +172,7 @@ export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
 	}
 };
 
-// Remove photo or photos from album
-export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
-	const albumId = Number(req.params.albumId);
-
-	if (!req.token) {
-		throw new Error("User not found.");
-	}
-	const userId = Number(req.token.sub);
-
-	if (!albumId) {
-		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
-		return;
-	}
-
-	try {
-		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
-		res.status(204).send();
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-}; // Add photo or photos to album
+// Add photo or photos to album
 
 export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
@@ -212,6 +191,29 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 		await addPhotoToAlbum(albumId, userId, req.body);
 
 		res.status(200).send({ status: "success", data: null });
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+};
+
+// Remove photo or photos from album
+export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
+	const albumId: number = Number(req.params.albumId);
+	const photoId: number = Number(req.params.photoId);
+
+	if (!req.token) {
+		throw new Error("User not found.");
+	}
+	const userId = Number(req.token.sub);
+
+	if (!albumId) {
+		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
+		return;
+	}
+
+	try {
+		await removePhotoFromAlbum(albumId, userId, photoId);
+		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
 	}

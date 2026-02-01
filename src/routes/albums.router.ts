@@ -64,4 +64,4 @@ albumsRouter.post("/:albumId/photos", validateRequest, linkPhotoToAlbum);
  *
  * Disconnect photo from album
  */
-albumsRouter.delete("/:albumId/photos/", validateRequest, unlinkPhotoFromAlbum);
+albumsRouter.delete("/:albumId/photos/:photoId", validateRequest, unlinkPhotoFromAlbum);
