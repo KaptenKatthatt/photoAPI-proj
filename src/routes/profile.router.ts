@@ -1,5 +1,5 @@
 import express from "express";
-import { destroy, getProfile, store, updateProfile } from "../controllers/profile.controller.ts";
+import { getProfile, store, updateProfile } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
@@ -40,10 +40,3 @@ profileRouter.post("/", createUserRules, validateRequest, store);
  * Update the authenticated user's profile
  */
 profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
-
-/**
- * DELETE /profile/:userId
- *
- * Remove user
- */
-profileRouter.delete("/:userId", destroy);
