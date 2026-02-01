@@ -116,7 +116,7 @@ export const destroy = async (req: Request, res: Response) => {
 	}
 	try {
 		await deleteAlbum(albumId, userId);
-		res.status(204).send();
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
