@@ -33,13 +33,6 @@ export const getUserByEmail = async (email: string) => {
 	});
 };
 
-// Delete a user
-export const deleteUser = async (userId: number) => {
-	return prisma.user.delete({
-		where: { id: userId },
-	});
-};
-
 // Check if email already exists
 export const validateEmailDoesNotExist = async (value: string) => {
 	const user = await getUserByEmail(value);

@@ -3,13 +3,7 @@
  */
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import {
-	createUser,
-	deleteUser,
-	getUser,
-	getUsers,
-	updateUserProfile,
-} from "../services/user.service.ts";
+import { createUser, getUser, getUsers, updateUserProfile } from "../services/user.service.ts";
 import { matchedData } from "express-validator";
 import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
 import { handlePrismaError } from "../lib/handlePrismaError.ts";
@@ -125,33 +119,6 @@ export const updateProfile = async (req: Request, res: Response) => {
 				email: user.email,
 				first_name: user.first_name,
 				last_name: user.last_name,
-			},
-		});
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
-
-/***
- * Remove a user
- */
-export const destroy = async (req: Request, res: Response) => {
-	const userId = Number(req.params.userId);
-	if (!userId) {
-		res.status(400).send({ status: "fail", data: { message: "User ID not found" } });
-		return;
-	}
-
-	try {
-		const deletedUser = await deleteUser(userId);
-
-		res.status(200).send({
-			status: "success",
-			data: {
-				id: deletedUser.id,
-				email: deletedUser.email,
-				first_name: deletedUser.first_name,
-				last_name: deletedUser.last_name,
 			},
 		});
 	} catch (error) {
