@@ -4,7 +4,6 @@ import {
 	getAllPhotosOfUser,
 	show,
 	store,
-	unlinkPhotoFromAlbum,
 	update,
 } from "../controllers/photos.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
@@ -32,7 +31,7 @@ photosRouter.get("/:photoId", show);
 /**
  * POST /photos
  *
- * Add one or many photos to the user profile
+ * Add one photo to the user profile
  */
 photosRouter.post("/", createPhotoRules, validateRequest, store);
 
@@ -49,10 +48,3 @@ photosRouter.patch("/:photoId", updatePhotoRules, validateRequest, update);
  * Delete a single photo
  */
 photosRouter.delete("/:photoId", validateRequest, destroy);
-
-/**
- * POST /photos/:albumId/photos
- *
- * Disconnect photo from album
- */
-photosRouter.delete("/:albumId/photos/", unlinkPhotoFromAlbum);

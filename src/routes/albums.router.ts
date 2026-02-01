@@ -1,9 +1,16 @@
 import express from "express";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { destroy, index, show, store, update } from "../controllers/albums.controller.ts";
+import {
+	destroy,
+	index,
+	show,
+	store,
+	unlinkPhotoFromAlbum,
+	update,
+} from "../controllers/albums.controller.ts";
 import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
-import { linkPhotoToAlbum } from "../controllers/photos.controller.ts";
+import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();
@@ -51,3 +58,10 @@ albumsRouter.delete("/:albumId", destroy);
  * Add photos to an album
  */
 albumsRouter.post("/:albumId/photos", validateRequest, linkPhotoToAlbum);
+
+/**
+ * POST /photos/:albumId/photos
+ *
+ * Disconnect photo from album
+ */
+albumsRouter.delete("/:albumId/photos/", validateRequest, unlinkPhotoFromAlbum);

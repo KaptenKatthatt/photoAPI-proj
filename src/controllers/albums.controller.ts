@@ -16,6 +16,7 @@ import { matchedData } from "express-validator";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
 import type { PhotoId } from "../types/Photo.types.ts";
+import { addPhotoToAlbum } from "../services/photos.service.ts";
 
 // Get all albums of logged in user
 export const index = async (req: Request, res: Response) => {
@@ -189,6 +190,28 @@ export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
 	try {
 		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
 		res.status(204).send();
+	} catch (error) {
+		handlePrismaError(res, error);
+	}
+}; // Add photo or photos to album
+
+export const linkPhotoToAlbum = async (req: Request, res: Response) => {
+	const albumId = Number(req.params.albumId);
+
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+	const userId = Number(req.token.sub);
+
+	if (!albumId) {
+		res.status(400).send({ status: "fail", data: { message: "Invalid album ID" } });
+		return;
+	}
+
+	try {
+		await addPhotoToAlbum(albumId, userId, req.body);
+
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}

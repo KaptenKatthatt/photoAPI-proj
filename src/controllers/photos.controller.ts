@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 import {
-	addPhotoToAlbum,
 	createPhoto,
 	deletePhoto,
 	getPhoto,
 	getPhotos,
-	removePhotoFromAlbum,
 	updatePhoto,
 } from "../services/photos.service.ts";
 import { matchedData } from "express-validator";
-import { CreatePhotoData, type PhotoId, type UpdatePhotoData } from "../types/Photo.types.ts";
+import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 
 /**
  * Get all photos of logged in user
@@ -125,51 +123,6 @@ export const destroy = async (req: Request, res: Response) => {
 			res.status(404).send({ status: "fail", data: { message: "Photo not found" } });
 			return;
 		}
-		res.status(204).send();
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
-
-// Add photo or photos to album
-export const linkPhotoToAlbum = async (req: Request, res: Response) => {
-	const albumId = Number(req.params.albumId);
-
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
-
-	if (!albumId) {
-		res.status(400).send({ status: "fail", data: { message: "Invalid album ID" } });
-		return;
-	}
-
-	try {
-		await addPhotoToAlbum(albumId, userId, req.body);
-
-		res.status(200).send({ status: "success", data: null });
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
-
-// Remove photo or photos from album
-export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
-	const albumId = Number(req.params.albumId);
-
-	if (!req.token) {
-		throw new Error("User not found.");
-	}
-	const userId = Number(req.token.sub);
-
-	if (!albumId) {
-		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
-		return;
-	}
-
-	try {
-		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
 		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
