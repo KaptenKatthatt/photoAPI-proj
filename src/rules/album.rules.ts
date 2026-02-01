@@ -9,8 +9,8 @@ export const createAlbumRules = [
 		.withMessage("Title must be a string")
 		.bail()
 		.trim()
-		.isLength({ min: 3, max: 191 })
-		.withMessage("Title must be between 1 and 191 characters"),
+		.isLength({ min: 3 })
+		.withMessage("Title must be at least 3 characters"),
 ];
 
 export const updateAlbumRules = [
@@ -23,6 +23,6 @@ export const updateAlbumRules = [
 		.withMessage("Title must be a string")
 		.bail()
 		.trim()
-		.isLength({ min: 3, max: 191 })
-		.withMessage("Title must be between 1 and 191 characters"),
+		.isLength({ min: 3 })
+		.withMessage("Title must be at least 3 characters"),
 ];

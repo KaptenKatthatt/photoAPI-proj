@@ -1,5 +1,13 @@
 import { prisma } from "../prisma.ts";
 
+/**
+ *
+ * Validates if the user trying to access photo is the owner of the photo.
+ *
+ * @param photoId
+ * @param userId
+ * @returns
+ */
 export const checkIfValidRequest = async (photoId: number, userId: number) => {
 	const photo = await prisma.photo.findUnique({
 		where: {

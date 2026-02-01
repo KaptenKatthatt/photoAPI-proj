@@ -48,7 +48,7 @@ photosRouter.patch("/:photoId", updatePhotoRules, validateRequest, update);
  *
  * Delete a single photo
  */
-photosRouter.delete("/:photoId", destroy);
+photosRouter.delete("/:photoId", validateRequest, destroy);
 
 /**
  * POST /photos/:albumId/photos

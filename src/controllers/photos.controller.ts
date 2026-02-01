@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { handlePrismaError } from "../lib/handlePrismaError.ts";
+import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 import {
 	addPhotoToAlbum,
 	createPhoto,
@@ -105,7 +105,7 @@ export const update = async (req: Request, res: Response) => {
 };
 
 // /**
-//  * Delete a single photo from db and disconnect it from albums
+//  * Delete a single photo from db. Prisma disconnects it from albums automagically.
 //  */
 export const destroy = async (req: Request, res: Response) => {
 	if (!req.token) {

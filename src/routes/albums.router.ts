@@ -34,14 +34,14 @@ albumsRouter.post("/", createAlbumRules, validateRequest, store);
 /**
  * PATCH /albums/:albumId
  *
- * Update a single album
+ * Update an album
  */
 albumsRouter.patch("/:albumId", updateAlbumRules, validateRequest, update);
 
 /**
  * DELETE /albums/:albumId
  *
- * Delete a single album
+ * Delete an album
  */
 albumsRouter.delete("/:albumId", destroy);
 

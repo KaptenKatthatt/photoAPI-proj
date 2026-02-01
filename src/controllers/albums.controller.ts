@@ -3,7 +3,7 @@
  *  */
 
 import { Request, Response } from "express";
-import { handlePrismaError } from "../lib/handlePrismaError.ts";
+import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 import {
 	createAlbum,
 	deleteAlbum,

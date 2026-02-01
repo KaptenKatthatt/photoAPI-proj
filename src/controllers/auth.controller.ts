@@ -8,7 +8,7 @@ import type { CreateUserData } from "../types/User.types.ts";
 import Debug from "debug";
 import jwt from "jsonwebtoken";
 import { matchedData } from "express-validator";
-import { handlePrismaError } from "../lib/handlePrismaError.ts";
+import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 import { createUser, getUser, getUserByEmail } from "../services/user.service.ts";
 import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT.types.ts";
 import { StringValue } from "ms";
@@ -54,19 +54,6 @@ export const registerUser = async (req: Request, res: Response) => {
 			...validatedData,
 			password: hashed_password,
 		});
-		// const { password: _password, ...userWithoutPassword } = user;
-
-		/*
-				RESPONSE EXAMPLE
-		{
-		"status": "success",
-		"data": {
-			"email": "jn@badcameraphotography.com",
-			"first_name": "Johan",
-			"last_name": "Nordström"
-		}
-		}
-		*/
 
 		res.status(201).send({
 			status: "success",
@@ -81,7 +68,6 @@ export const registerUser = async (req: Request, res: Response) => {
  * Login a user and provide JWT tokens
  */
 export const loginUser = async (req: Request, res: Response) => {
-	// Get validated login info from request
 	const { email, password } = matchedData<LoginData>(req);
 
 	// Look for user in database
@@ -201,16 +187,3 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 		},
 	});
 };
-
-// Refresh access token using refresh token
-// export const refreshAccessToken = async (req: Request, res: Response) => {
-
-/*
-	RESPONSE EXAMPLE
-	{
-  "status": "success",
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6IkpvaGFuIE5vcmRzdHLDtm0iLCJlbWFpbCI6ImpuQHRoZWhpdmVyZXNpc3RhbmNlLmNvbSIsImlhdCI6MTczODgzNTk0OCwiZXhwIjoxNzM4ODM2ODQ4fQ.QTgUMXFWrT5OlmTN3k337mSEw8MJPXSiYUIaWbG5kJI"
-  }
-}
-*/

@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 import { createUser, getUser, getUsers, updateUserProfile } from "../services/user.service.ts";
 import { matchedData } from "express-validator";
 import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
-import { handlePrismaError } from "../lib/handlePrismaError.ts";
+import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 

@@ -1,5 +1,5 @@
 import type { Response } from "express";
-import { Prisma } from "../../generated/prisma/client.ts";
+import { Prisma } from "../../../generated/prisma/client.ts";
 
 /**
  * Handle Prisma Errors
