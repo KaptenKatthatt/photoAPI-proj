@@ -146,9 +146,9 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	}
 
 	try {
-		const result = await addPhotoToAlbum(albumId, userId, req.body);
+		await addPhotoToAlbum(albumId, userId, req.body);
 
-		res.status(201).send({ status: "success", data: result });
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
