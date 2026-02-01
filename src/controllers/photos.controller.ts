@@ -125,7 +125,7 @@ export const destroy = async (req: Request, res: Response) => {
 			res.status(404).send({ status: "fail", data: { message: "Photo not found" } });
 			return;
 		}
-		res.status(200).send({ status: "success", data: null });
+		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -170,7 +170,7 @@ export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
 
 	try {
 		await removePhotoFromAlbum(albumId, userId, req.body as PhotoId | PhotoId[]);
-		res.status(200).send({ status: "success", data: null });
+		res.status(204).send();
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
