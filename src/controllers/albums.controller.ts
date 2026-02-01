@@ -40,8 +40,8 @@ export const show = async (req: Request, res: Response) => {
 
 	if (!albumId) {
 		res.status(400).send({
-			status: "error",
-			message: "Invalid album ID",
+			status: "fail",
+			data: { message: "Invalid album ID" },
 		});
 		return;
 	}
@@ -84,7 +84,8 @@ export const update = async (req: Request, res: Response) => {
 
 	if (!albumId) {
 		res.status(400).send({
-			message: "Invalid album ID",
+			status: "fail",
+			data: { message: "Invalid album ID" },
 		});
 		return;
 	}
@@ -108,13 +109,14 @@ export const destroy = async (req: Request, res: Response) => {
 
 	if (!albumId) {
 		res.status(400).send({
-			message: "Invalid album ID",
+			status: "fail",
+			data: { message: "Invalid album ID" },
 		});
 		return;
 	}
 	try {
 		await deleteAlbum(albumId, userId);
-		res.status(204).send();
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -139,7 +141,7 @@ export const connectAlbumToUser = async (req: Request, res: Response) => {
 			},
 		});
 
-		res.send(result);
+		res.send({ status: "success", data: result });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -164,7 +166,7 @@ export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
 			},
 		});
 
-		res.send(result);
+		res.send({ status: "success", data: result });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -180,7 +182,7 @@ export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!albumId) {
-		res.status(400).send({ status: "error", message: "Album ID not found" });
+		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
 		return;
 	}
 

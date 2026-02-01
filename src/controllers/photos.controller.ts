@@ -43,7 +43,7 @@ export const show = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!photoId) {
-		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
 		return;
 	}
 	try {
@@ -89,7 +89,7 @@ export const update = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!photoId) {
-		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
 		return;
 	}
 
@@ -115,17 +115,17 @@ export const destroy = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!photoId) {
-		res.status(400).send({ status: "error", message: "Invalid photo ID" });
+		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
 		return;
 	}
 
 	try {
 		const result = await deletePhoto(photoId, userId);
 		if (result.count === 0) {
-			res.status(404).send({ status: "error", message: "Wrong id, photo not found." });
+			res.status(404).send({ status: "fail", data: { message: "Photo not found" } });
 			return;
 		}
-		res.status(204).send();
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -141,14 +141,14 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!albumId) {
-		res.status(400).send({ status: "error", message: "Invalid album ID" });
+		res.status(400).send({ status: "fail", data: { message: "Invalid album ID" } });
 		return;
 	}
 
 	try {
-		const result = await addPhotoToAlbum(albumId, userId, req.body);
+		await addPhotoToAlbum(albumId, userId, req.body);
 
-		res.status(201).send({ status: "success", data: result });
+		res.status(200).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}
@@ -164,7 +164,7 @@ export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
 	const userId = Number(req.token.sub);
 
 	if (!albumId) {
-		res.status(400).send({ status: "error", message: "Album ID not found" });
+		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
 		return;
 	}
 

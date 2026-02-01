@@ -145,7 +145,7 @@ export const destroy = async (req: Request, res: Response) => {
 	try {
 		const deletedUser = await deleteUser(userId);
 
-		res.status(204).send({
+		res.status(200).send({
 			status: "success",
 			data: {
 				id: deletedUser.id,
