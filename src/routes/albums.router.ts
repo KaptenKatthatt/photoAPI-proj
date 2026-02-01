@@ -60,7 +60,7 @@ albumsRouter.delete("/:albumId", destroy);
 albumsRouter.post("/:albumId/photos", validateRequest, linkPhotoToAlbum);
 
 /**
- * POST /photos/:albumId/photos
+ * DELETE /albums/:albumId/photos/:photoId
  *
  * Disconnect photo from album
  */

@@ -1,6 +1,6 @@
 import { checkIfValidRequest } from "../lib/errorHandlers/checkIfValidRequest.ts";
 import { prisma } from "../lib/prisma.ts";
-import type { CreatePhotoData, PhotoId, UpdatePhotoData } from "../types/Photo.types.ts";
+import type { CreatePhotoData, UpdatePhotoData } from "../types/Photo.types.ts";
 
 // Get all photos of logged in user
 export const getPhotos = async (userId: number) => {
@@ -60,67 +60,5 @@ export const updatePhoto = async (
 export const deletePhoto = async (photoId: number, userId: number) => {
 	return await prisma.photo.deleteMany({
 		where: { id: photoId, user_id: userId },
-	});
-};
-
-/**
- * Connect one or many photos to an album
- */
-export const addPhotoToAlbum = async (
-	albumId: number,
-	userId: number,
-	photoIdOrIds: PhotoId | PhotoId[],
-) => {
-	// Check if incoming photos is many(array) or a single photo
-	const photoIds = Array.isArray(photoIdOrIds)
-		? photoIdOrIds.map((photo) => photo.id)
-		: [photoIdOrIds.id];
-
-	const photos = await prisma.photo.findMany({
-		where: {
-			id: { in: photoIds },
-			user_id: userId,
-		},
-	});
-	// If not the same amount of photos is found as we are trying to add, throw an error but don't specify what photo is missing because of security reasons.
-	if (photos.length !== photoIds.length) {
-		throw new Error("PHOTO_NOT_FOUND");
-	}
-
-	return await prisma.album.update({
-		where: {
-			id: albumId,
-			user_id: userId,
-		},
-		data: {
-			photos: {
-				connect: photoIdOrIds,
-			},
-		},
-		include: {
-			photos: true,
-		},
-	});
-};
-
-// Disconnect one or many photos from an album
-export const removePhotoFromAlbum = async (
-	albumId: number,
-	userId: number,
-	photoIdOrIds: PhotoId | PhotoId[],
-) => {
-	return await prisma.album.update({
-		where: {
-			id: albumId,
-			user_id: userId,
-		},
-		data: {
-			photos: {
-				disconnect: photoIdOrIds,
-			},
-		},
-		include: {
-			photos: true,
-		},
 	});
 };

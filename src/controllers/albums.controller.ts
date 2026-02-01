@@ -5,6 +5,7 @@
 import { Request, Response } from "express";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 import {
+	addPhotoToAlbum,
 	createAlbum,
 	deleteAlbum,
 	getAlbum,
@@ -15,7 +16,6 @@ import {
 import { matchedData } from "express-validator";
 import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
-import { addPhotoToAlbum } from "../services/photos.service.ts";
 
 // Get all albums of logged in user
 export const index = async (req: Request, res: Response) => {
