@@ -15,7 +15,7 @@ rootRouter.get("/", (_req, res) => {
 		status: "success",
 		data: {
 			message:
-				' Cat: "we\'re all mad here. I\'m mad. You\'re mad." "How do you know I\'m mad?" said Alice. "You must be," said the Cat, "or you wouldn\'t have come here."., https://www.youtube.com/watch?v=fhmgbLI9CyE',
+				"Cat: We're all mad here. I'm mad. You're mad. \nHow do you know I'm mad? said Alice. \nYou must be, said the Cat, or you wouldn't have come here..., https://www.youtube.com/watch?v=fhmgbLI9CyE",
 		},
 	});
 });
