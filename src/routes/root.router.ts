@@ -11,7 +11,7 @@ export const rootRouter = express.Router();
  * GET /
  */
 rootRouter.get("/", (_req, res) => {
-	res.send({
+	res.status(200).send({
 		status: "success",
 		data: {
 			message:
