@@ -11,11 +11,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-// Serve static files from public/
-app.use(express.static(path.join(process.cwd(), "public")));
-
 // Use dem routes
 app.use(rootRouter);
+
+// Serve static files from public/
+app.use(express.static(path.join(process.cwd(), "public")));
 
 /**
  * Catch-all route 🛟
