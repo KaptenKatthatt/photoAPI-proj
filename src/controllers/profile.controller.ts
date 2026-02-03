@@ -24,13 +24,8 @@ export const index = async (_req: Request, res: Response) => {
 };
 // Get profile of user this side of the fence
 export const getProfile = async (req: Request, res: Response) => {
-	// Check if the user exists
-	if (!req.token) {
-		throw new Error("No user found. Go away.");
-	}
-	const userId = Number(req.token.sub);
-
 	// Get user info from db
+	const userId = req.userId;
 	const user = await getUser(userId);
 
 	if (!user) {
@@ -52,11 +47,7 @@ export const getProfile = async (req: Request, res: Response) => {
 
 // Get a single user
 export const show = async (req: Request, res: Response) => {
-	if (!req.token) {
-		throw new Error("No user found. Go away.");
-	}
-
-	const userId = Number(req.token?.sub);
+	const userId = req.userId;
 
 	// Get user info from database
 	const user = await getUser(userId);
@@ -100,11 +91,8 @@ export const store = async (req: Request, res: Response) => {
  * Update a user profile
  */
 export const updateProfile = async (req: Request, res: Response) => {
-	if (!req.token) {
-		throw new Error("No user found. Go away.");
-	}
+	const userId = req.userId;
 
-	const userId = Number(req.token.sub);
 	const validatedData = matchedData<UpdateUserData>(req);
 
 	// If request to update password, clone data to avoid overwriting other incoming data

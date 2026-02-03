@@ -3,6 +3,7 @@ import { getProfile, store, updateProfile } from "../controllers/profile.control
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
+import { checkForUser } from "../middlewares/auth/checkForUser.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
@@ -15,18 +16,18 @@ profileRouter.use(verifyAccessToken);
  *
  * Get the logged in user's profile
  */
-profileRouter.get("/", validateRequest, getProfile);
+profileRouter.get("/", checkForUser, validateRequest, getProfile);
 
 /**
  * POST /profile
  *
  * Create a user
  */
-profileRouter.post("/", createUserRules, validateRequest, store);
+profileRouter.post("/", createUserRules, checkForUser, validateRequest, store);
 
 /**
  * PATCH /profile
  *
  * Update the authenticated user's profile
  */
-profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
+profileRouter.patch("/", updateUserRules, checkForUser, validateRequest, updateProfile);
