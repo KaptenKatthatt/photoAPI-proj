@@ -12,12 +12,14 @@ import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
 import { checkIfUserIsAuthenticated } from "../middlewares/auth/checkIfUserIsAuthenticated.ts";
+import { checkIfUserExists } from "../middlewares/auth/checkIfUserExists.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();
 
 albumsRouter.use(verifyAccessToken);
 albumsRouter.use(checkIfUserIsAuthenticated);
+albumsRouter.use(checkIfUserExists);
 
 /**
  * GET /albums

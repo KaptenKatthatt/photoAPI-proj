@@ -51,12 +51,7 @@ export const show = async (req: Request, res: Response) => {
  */
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreatePhotoData>(req);
-
 	const userId = req.userId;
-
-	if (!userId) {
-		throw new Error("Could not find userId in token");
-	}
 
 	try {
 		const photo = await createPhoto(validatedData, userId);

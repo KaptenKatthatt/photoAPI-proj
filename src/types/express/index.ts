@@ -9,7 +9,7 @@ declare global {
 		export interface Request {
 			token?: JWTAccessTokenPayload;
 			userId: number;
-			user?: User;
+			user?: User | null;
 		}
 	}
 }

@@ -3,7 +3,7 @@
  */
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { createUser, getUser, getUsers, updateUserProfile } from "../services/user.service.ts";
+import { createUser, getUsers, updateUserProfile } from "../services/user.service.ts";
 import { matchedData } from "express-validator";
 import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
@@ -25,14 +25,7 @@ export const index = async (_req: Request, res: Response) => {
 // Get profile of user this side of the fence
 export const getProfile = async (req: Request, res: Response) => {
 	// Get user info from db
-	const userId = req.userId;
-
-	const user = await getUser(userId);
-
-	if (!user) {
-		res.status(404).send({ status: "fail", data: { message: "User not found" } });
-		return;
-	}
+	const user = req.user!;
 
 	// Send user profile
 	res.send({
@@ -48,15 +41,7 @@ export const getProfile = async (req: Request, res: Response) => {
 
 // Get a single user
 export const show = async (req: Request, res: Response) => {
-	const userId = req.userId;
-
-	// Get user info from database
-	const user = await getUser(userId);
-
-	if (!user) {
-		res.status(404).send({ status: "fail", data: { message: "User not found" } });
-		return;
-	}
+	const user = req.user!;
 
 	res.send({
 		status: "success",
