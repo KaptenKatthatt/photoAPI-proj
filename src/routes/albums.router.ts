@@ -11,11 +11,13 @@ import {
 import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
+import { checkForUser } from "../middlewares/auth/checkForUser.ts";
 
 // Create a Albums router
 export const albumsRouter = express.Router();
 
 albumsRouter.use(verifyAccessToken);
+albumsRouter.use(checkForUser);
 
 /**
  * GET /albums

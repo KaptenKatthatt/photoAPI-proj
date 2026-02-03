@@ -20,7 +20,8 @@ import { prisma } from "../lib/prisma.ts";
 // Get all albums of logged in user
 export const index = async (req: Request, res: Response) => {
 	{
-		const userId = Number(req.token?.sub);
+		const userId = req.userId;
+
 		try {
 			const albums = await getAlbums(userId);
 			res.send({
@@ -36,7 +37,8 @@ export const index = async (req: Request, res: Response) => {
 // Get a single album
 export const show = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
-	const userId = Number(req.token?.sub);
+
+	const userId = req.userId;
 
 	if (!albumId) {
 		res.status(400).send({
@@ -59,7 +61,8 @@ export const show = async (req: Request, res: Response) => {
 // Create an album
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreateAlbumData>(req);
-	const userId = Number(req.token?.sub);
+
+	const userId = req.userId;
 
 	if (!userId) {
 		throw new Error("Could not find userId in token");
@@ -80,7 +83,7 @@ export const store = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
-	const userId = Number(req.token?.sub);
+	const userId = req.userId;
 
 	if (!albumId) {
 		res.status(400).send({
@@ -105,7 +108,7 @@ export const update = async (req: Request, res: Response) => {
 
 export const destroy = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
-	const userId = Number(req.token?.sub);
+	const userId = req.userId;
 
 	if (!albumId) {
 		res.status(400).send({
@@ -127,11 +130,7 @@ export const connectAlbumToUser = async (
 	req: Request<unknown, unknown, AlbumId | AlbumId[]>,
 	res: Response,
 ) => {
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	try {
 		const result = await prisma.user.update({
@@ -159,10 +158,7 @@ export const disconnectAlbumFromUser = async (
 	req: Request<unknown, unknown, AlbumId | AlbumId[]>,
 	res: Response,
 ) => {
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	try {
 		const result = await prisma.user.update({
@@ -193,10 +189,7 @@ export const linkPhotoToAlbum = async (
 ) => {
 	const albumId = Number(req.params.albumId);
 
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	if (!albumId) {
 		res.status(400).send({ status: "fail", data: { message: "Invalid album ID" } });
@@ -220,10 +213,7 @@ export const unlinkPhotoFromAlbum = async (
 	const albumId: number = Number(req.params.albumId);
 	const photoId: number = Number(req.params.photoId);
 
-	if (!req.token) {
-		throw new Error("User not found.");
-	}
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	if (!albumId) {
 		res.status(400).send({ status: "fail", data: { message: "Album ID not found" } });
