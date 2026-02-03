@@ -10,24 +10,25 @@ export const profileRouter = express.Router();
 
 // Apply authentication middleware for the remaining profile routes
 profileRouter.use(verifyAccessToken);
+profileRouter.use(checkForUser);
 
 /**
  * GET /profile
  *
  * Get the logged in user's profile
  */
-profileRouter.get("/", checkForUser, validateRequest, getProfile);
+profileRouter.get("/", validateRequest, getProfile);
 
 /**
  * POST /profile
  *
  * Create a user
  */
-profileRouter.post("/", createUserRules, checkForUser, validateRequest, store);
+profileRouter.post("/", createUserRules, validateRequest, store);
 
 /**
  * PATCH /profile
  *
  * Update the authenticated user's profile
  */
-profileRouter.patch("/", updateUserRules, checkForUser, validateRequest, updateProfile);
+profileRouter.patch("/", updateUserRules, validateRequest, updateProfile);
