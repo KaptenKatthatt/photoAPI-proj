@@ -1,9 +1,10 @@
 import express from "express";
-import { getProfile, store, updateProfile } from "../controllers/profile.controller.ts";
+import { getProfile, updateProfile } from "../controllers/profile.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
-import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
+import { updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 import { checkIfUserIsAuthenticated } from "../middlewares/auth/checkIfUserIsAuthenticated.ts";
+import { checkIfUserExists } from "../middlewares/auth/checkIfUserExists.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
@@ -11,20 +12,14 @@ export const profileRouter = express.Router();
 // Apply authentication middleware for the remaining profile routes
 profileRouter.use(verifyAccessToken);
 profileRouter.use(checkIfUserIsAuthenticated);
+profileRouter.use(checkIfUserExists);
 
 /**
  * GET /profile
  *
  * Get the logged in user's profile
  */
-profileRouter.get("/", validateRequest, getProfile);
-
-/**
- * POST /profile
- *
- * Create a user
- */
-profileRouter.post("/", createUserRules, validateRequest, store);
+profileRouter.get("/", getProfile);
 
 /**
  * PATCH /profile

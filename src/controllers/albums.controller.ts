@@ -65,7 +65,7 @@ export const store = async (req: Request, res: Response) => {
 
 	try {
 		const album = await createAlbum(validatedData, userId);
-		res.status(201).send({
+		res.status(200).send({
 			status: "success",
 			data: album,
 		});
@@ -75,7 +75,6 @@ export const store = async (req: Request, res: Response) => {
 };
 
 // Update an album
-
 export const update = async (req: Request, res: Response) => {
 	const albumId = Number(req.params.albumId);
 	const userId = req.userId;

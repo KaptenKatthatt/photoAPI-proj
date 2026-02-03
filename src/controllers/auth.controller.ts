@@ -85,7 +85,7 @@ export const loginUser = async (req: Request, res: Response) => {
 		res.status(401).send({ status: "fail", data: { message: "Invalid email or password" } });
 		return;
 	}
-	console.log("Login successful");
+	debug("Login successful");
 
 	// Create JWT access token payload
 	const payload: JWTAccessTokenPayload = {

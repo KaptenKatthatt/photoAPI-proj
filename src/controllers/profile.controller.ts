@@ -3,25 +3,13 @@
  */
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { createUser, getUsers, updateUserProfile } from "../services/user.service.ts";
+import { updateUserProfile } from "../services/user.service.ts";
 import { matchedData } from "express-validator";
-import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
+import type { UpdateUserData } from "../types/User.types.ts";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
-// Get all users
-export const index = async (_req: Request, res: Response) => {
-	try {
-		const users = await getUsers();
-		res.send({
-			status: "success",
-			data: users,
-		});
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
 // Get logged in user's profile
 export const getProfile = async (req: Request, res: Response) => {
 	// Get user info from db
@@ -39,39 +27,20 @@ export const getProfile = async (req: Request, res: Response) => {
 	});
 };
 
-// Get a single user
-export const show = async (req: Request, res: Response) => {
-	const user = req.user!;
+// // Get a single user
+// export const show = async (req: Request, res: Response) => {
+// 	const user = req.user!;
 
-	res.send({
-		status: "success",
-		data: {
-			id: user.id,
-			email: user.email,
-			first_name: user.first_name,
-			last_name: user.last_name,
-		},
-	});
-};
-
-// Create a user
-export const store = async (req: Request, res: Response) => {
-	const validatedData = matchedData<CreateUserData>(req);
-	try {
-		const user = await createUser(validatedData);
-		res.status(201).send({
-			status: "success",
-			data: {
-				id: user.id,
-				email: user.email,
-				first_name: user.first_name,
-				last_name: user.last_name,
-			},
-		});
-	} catch (error) {
-		handlePrismaError(res, error);
-	}
-};
+// 	res.send({
+// 		status: "success",
+// 		data: {
+// 			id: user.id,
+// 			email: user.email,
+// 			first_name: user.first_name,
+// 			last_name: user.last_name,
+// 		},
+// 	});
+// };
 
 /**
  * Update a user profile
