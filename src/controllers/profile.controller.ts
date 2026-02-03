@@ -22,7 +22,7 @@ export const index = async (_req: Request, res: Response) => {
 		handlePrismaError(res, error);
 	}
 };
-// Get profile of user this side of the fence
+// Get logged in user's profile
 export const getProfile = async (req: Request, res: Response) => {
 	// Get user info from db
 	const user = req.user!;
@@ -77,9 +77,8 @@ export const store = async (req: Request, res: Response) => {
  * Update a user profile
  */
 export const updateProfile = async (req: Request, res: Response) => {
-	const userId = req.userId;
-
 	const validatedData = matchedData<UpdateUserData>(req);
+	const userId = req.userId;
 
 	// If request to update password, clone data to avoid overwriting other incoming data
 	const data = { ...validatedData };

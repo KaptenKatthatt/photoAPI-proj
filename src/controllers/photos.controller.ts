@@ -66,7 +66,6 @@ export const store = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
-
 	const userId = req.userId;
 
 	if (!photoId) {
@@ -76,7 +75,6 @@ export const update = async (req: Request, res: Response) => {
 
 	try {
 		const validatedData = matchedData<Partial<UpdatePhotoData>>(req);
-
 		const photo = await updatePhoto(photoId, validatedData, userId);
 
 		res.send({ status: "success", data: photo });

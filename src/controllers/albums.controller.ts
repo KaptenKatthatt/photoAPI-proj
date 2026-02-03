@@ -177,7 +177,6 @@ export const disconnectAlbumFromUser = async (
 };
 
 // Add photo or photos to album
-
 export const linkPhotoToAlbum = async (
 	req: Request<{ albumId: string }, unknown, AlbumId | AlbumId[]>,
 	res: Response,
