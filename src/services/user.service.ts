@@ -12,11 +12,6 @@ export const getUser = async (userId: number) => {
 	});
 };
 
-// Get all users
-export const getUsers = () => {
-	return prisma.user.findMany();
-};
-
 // Create a User
 export const createUser = async (data: CreateUserData) => {
 	return prisma.user.create({

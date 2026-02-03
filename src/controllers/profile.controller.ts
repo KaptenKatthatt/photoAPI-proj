@@ -27,21 +27,6 @@ export const getProfile = async (req: Request, res: Response) => {
 	});
 };
 
-// // Get a single user
-// export const show = async (req: Request, res: Response) => {
-// 	const user = req.user!;
-
-// 	res.send({
-// 		status: "success",
-// 		data: {
-// 			id: user.id,
-// 			email: user.email,
-// 			first_name: user.first_name,
-// 			last_name: user.last_name,
-// 		},
-// 	});
-// };
-
 /**
  * Update a user profile
  */
