@@ -112,6 +112,7 @@ export const loginUser = async (req: Request, res: Response) => {
 	// Set refresh token as HTTP only cookie
 	res.cookie("refresh_token", refreshToken, {
 		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
 		sameSite: "strict",
 		path: "/refresh",
 	});
