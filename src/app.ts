@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import path from "path";
+// import path from "path";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { rootRouter } from "./routes/root.router.ts";
@@ -15,7 +15,7 @@ app.use(morgan("dev"));
 app.use(rootRouter);
 
 // Serve static files from public/
-app.use(express.static(path.join(process.cwd(), "public")));
+// app.use(express.static(path.join(process.cwd(), "public")));
 
 /**
  * Catch-all route 🛟
