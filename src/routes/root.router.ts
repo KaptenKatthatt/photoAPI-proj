@@ -11,7 +11,7 @@ export const rootRouter = express.Router();
  * GET /
  */
 rootRouter.get("/", (_req, res) => {
-	res.status(200).send({ status: "success", data: null });
+	res.status(200).send({ status: "success", message: "Welcome to the Prisma Photos API!" });
 });
 
 // Photos router
