@@ -14,10 +14,7 @@ import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
  * Get all photos of logged in user
  */
 export const index = async (req: Request, res: Response) => {
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	try {
 		const photos = await getPhotos(userId);
@@ -34,11 +31,7 @@ export const index = async (req: Request, res: Response) => {
 export const show = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
 
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	if (!photoId) {
 		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
@@ -58,10 +51,8 @@ export const show = async (req: Request, res: Response) => {
  */
 export const store = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreatePhotoData>(req);
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
+
+	const userId = req.userId;
 
 	if (!userId) {
 		throw new Error("Could not find userId in token");
@@ -81,10 +72,7 @@ export const store = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
 	const photoId = Number(req.params.photoId);
 
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	if (!photoId) {
 		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
@@ -106,11 +94,8 @@ export const update = async (req: Request, res: Response) => {
 //  * Delete a single photo from db. Prisma disconnects it from albums automagically.
 //  */
 export const destroy = async (req: Request, res: Response) => {
-	if (!req.token) {
-		throw new Error("Unauthorized. Could not get user from token.");
-	}
 	const photoId = Number(req.params.photoId);
-	const userId = Number(req.token.sub);
+	const userId = req.userId;
 
 	if (!photoId) {
 		res.status(400).send({ status: "fail", data: { message: "Invalid photo ID" } });
