@@ -1,11 +1,5 @@
 import express from "express";
-import {
-	destroy,
-	getAllPhotosOfUser,
-	show,
-	store,
-	update,
-} from "../controllers/photos.controller.ts";
+import { destroy, index, show, store, update } from "../controllers/photos.controller.ts";
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createPhotoRules, updatePhotoRules } from "../rules/photo.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
@@ -19,8 +13,7 @@ photosRouter.use(verifyAccessToken);
  *
  * Get all photos of logged in user
  */
-// photosRouter.get("/", index);
-photosRouter.get("/", getAllPhotosOfUser);
+photosRouter.get("/", index);
 /**
  * GET /photos/:photoId
  *

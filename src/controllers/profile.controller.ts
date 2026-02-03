@@ -52,7 +52,11 @@ export const getProfile = async (req: Request, res: Response) => {
 
 // Get a single user
 export const show = async (req: Request, res: Response) => {
-	const userId = Number(req.params.userId);
+	if (!req.token) {
+		throw new Error("No user found. Go away.");
+	}
+
+	const userId = Number(req.token?.sub);
 
 	// Get user info from database
 	const user = await getUser(userId);

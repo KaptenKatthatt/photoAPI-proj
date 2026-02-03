@@ -14,7 +14,7 @@ import {
 	updateAlbum,
 } from "../services/albums.service.ts";
 import { matchedData } from "express-validator";
-import { CreateAlbumData, type UpdateAlbumData } from "../types/Album.types.ts";
+import { CreateAlbumData, type AlbumId, type UpdateAlbumData } from "../types/Album.types.ts";
 import { prisma } from "../lib/prisma.ts";
 
 // Get all albums of logged in user
@@ -123,8 +123,15 @@ export const destroy = async (req: Request, res: Response) => {
 };
 
 // Connect an album to a user
-export const connectAlbumToUser = async (req: Request, res: Response) => {
-	const userId = Number(req.params.userId);
+export const connectAlbumToUser = async (
+	req: Request<unknown, unknown, AlbumId | AlbumId[]>,
+	res: Response,
+) => {
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+
+	const userId = Number(req.token.sub);
 
 	try {
 		const result = await prisma.user.update({
@@ -148,8 +155,14 @@ export const connectAlbumToUser = async (req: Request, res: Response) => {
 };
 
 // Disconnect album from user
-export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
-	const userId = Number(req.params.userId);
+export const disconnectAlbumFromUser = async (
+	req: Request<unknown, unknown, AlbumId | AlbumId[]>,
+	res: Response,
+) => {
+	if (!req.token) {
+		throw new Error("Unauthorized. Could not get user from token.");
+	}
+	const userId = Number(req.token.sub);
 
 	try {
 		const result = await prisma.user.update({
@@ -174,7 +187,10 @@ export const disconnectAlbumFromUser = async (req: Request, res: Response) => {
 
 // Add photo or photos to album
 
-export const linkPhotoToAlbum = async (req: Request, res: Response) => {
+export const linkPhotoToAlbum = async (
+	req: Request<{ albumId: string }, unknown, AlbumId | AlbumId[]>,
+	res: Response,
+) => {
 	const albumId = Number(req.params.albumId);
 
 	if (!req.token) {
@@ -197,7 +213,10 @@ export const linkPhotoToAlbum = async (req: Request, res: Response) => {
 };
 
 // Remove photo or photos from album
-export const unlinkPhotoFromAlbum = async (req: Request, res: Response) => {
+export const unlinkPhotoFromAlbum = async (
+	req: Request<{ albumId: string; photoId: string }, unknown, AlbumId | AlbumId[]>,
+	res: Response,
+) => {
 	const albumId: number = Number(req.params.albumId);
 	const photoId: number = Number(req.params.photoId);
 

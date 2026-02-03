@@ -13,7 +13,7 @@ import { CreatePhotoData, type UpdatePhotoData } from "../types/Photo.types.ts";
 /**
  * Get all photos of logged in user
  */
-export const getAllPhotosOfUser = async (req: Request, res: Response) => {
+export const index = async (req: Request, res: Response) => {
 	if (!req.token) {
 		throw new Error("Unauthorized. Could not get user from token.");
 	}
