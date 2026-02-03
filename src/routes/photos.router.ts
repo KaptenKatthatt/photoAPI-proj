@@ -3,12 +3,12 @@ import { destroy, index, show, store, update } from "../controllers/photos.contr
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createPhotoRules, updatePhotoRules } from "../rules/photo.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
-import { checkForUser } from "../middlewares/auth/checkForUser.ts";
+import { checkIfUserIsAuthenticated } from "../middlewares/auth/checkIfUserIsAuthenticated.ts";
 
 // Create Photos router
 export const photosRouter = express.Router();
 photosRouter.use(verifyAccessToken);
-photosRouter.use(checkForUser);
+photosRouter.use(checkIfUserIsAuthenticated);
 
 /**
  * GET /photos

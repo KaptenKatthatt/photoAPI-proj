@@ -26,6 +26,7 @@ export const index = async (_req: Request, res: Response) => {
 export const getProfile = async (req: Request, res: Response) => {
 	// Get user info from db
 	const userId = req.userId;
+
 	const user = await getUser(userId);
 
 	if (!user) {

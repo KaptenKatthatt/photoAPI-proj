@@ -71,6 +71,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 	// Look for user in database
 	const user = await getUserByEmail(email);
+
 	if (!user) {
 		res.status(401).send({ status: "fail", data: { message: "Invalid email or password" } });
 		return;

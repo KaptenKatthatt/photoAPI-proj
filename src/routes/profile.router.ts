@@ -3,14 +3,14 @@ import { getProfile, store, updateProfile } from "../controllers/profile.control
 import { validateRequest } from "../middlewares/validateRequest.ts";
 import { createUserRules, updateUserRules } from "../rules/user.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
-import { checkForUser } from "../middlewares/auth/checkForUser.ts";
+import { checkIfUserIsAuthenticated } from "../middlewares/auth/checkIfUserIsAuthenticated.ts";
 
 // Create a Profile router
 export const profileRouter = express.Router();
 
 // Apply authentication middleware for the remaining profile routes
 profileRouter.use(verifyAccessToken);
-profileRouter.use(checkForUser);
+profileRouter.use(checkIfUserIsAuthenticated);
 
 /**
  * GET /profile
