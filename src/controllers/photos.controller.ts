@@ -101,7 +101,7 @@ export const destroy = async (req: Request, res: Response) => {
 			res.status(404).send({ status: "fail", data: { message: "Photo not found" } });
 			return;
 		}
-		res.status(204).send();
+		res.status(204).send({ status: "success", data: null });
 	} catch (error) {
 		handlePrismaError(res, error);
 	}

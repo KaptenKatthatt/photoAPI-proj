@@ -31,7 +31,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
 
 	// Check if user is using Bearer authentication
 	if (authScheme.toLowerCase() !== "bearer") {
-		debug("Authorization scheme is not Bearer.");
+		debug("Bearer token is not of correct type.");
 		res.status(401).send({
 			status: "fail",
 			data: {
