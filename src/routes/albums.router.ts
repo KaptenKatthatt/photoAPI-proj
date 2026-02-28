@@ -8,7 +8,7 @@ import {
 	unlinkPhotoFromAlbum,
 	update,
 } from "../controllers/albums.controller.ts";
-import { createAlbumRules, updateAlbumRules } from "../rules/album.rules.ts";
+import { createAlbumRules, postPhotosRules, updateAlbumRules } from "../rules/album.rules.ts";
 import { verifyAccessToken } from "../middlewares/auth/jwt.ts";
 import { linkPhotoToAlbum } from "../controllers/albums.controller.ts";
 import { checkIfUserIsAuthenticated } from "../middlewares/auth/checkIfUserIsAuthenticated.ts";
@@ -61,7 +61,7 @@ albumsRouter.delete("/:albumId", destroy);
  *
  * Add photos to an album
  */
-albumsRouter.post("/:albumId/photos", validateRequest, linkPhotoToAlbum);
+albumsRouter.post("/:albumId/photos", postPhotosRules, validateRequest, linkPhotoToAlbum);
 
 /**
  * DELETE /albums/:albumId/photos/:photoId

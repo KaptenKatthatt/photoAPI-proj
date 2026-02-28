@@ -26,3 +26,5 @@ export const updateAlbumRules = [
 		.isLength({ min: 3 })
 		.withMessage("Title must be at least 3 characters"),
 ];
+
+export const postPhotosRules = [body().isArray().notEmpty(), body("*.id").notEmpty().isInt()];

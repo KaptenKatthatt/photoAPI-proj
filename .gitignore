@@ -2,9 +2,9 @@
 /**/dist
 /**/node_modules
 .DS_Store
-# Keep environment variables out of version control
 .env
 
 /generated/prisma
 /docs
 /misc
+/docs
