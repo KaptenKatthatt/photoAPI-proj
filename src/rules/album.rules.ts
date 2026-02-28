@@ -27,4 +27,7 @@ export const updateAlbumRules = [
 		.withMessage("Title must be at least 3 characters"),
 ];
 
-export const postPhotosRules = [body().isArray().notEmpty(), body("*.id").notEmpty().isInt()];
+export const postPhotosRules = [
+	body().notEmpty().withMessage("No content in upload").bail().isArray(),
+	body("*.id").notEmpty().withMessage("Empty id").bail().isInt(),
+];

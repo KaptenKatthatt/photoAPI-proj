@@ -9,15 +9,8 @@ import type { PhotoId } from "../types/Photo.types.ts";
 /**
  * Connect one or many photos to an album
  */
-export const addPhotoToAlbum = async (
-	albumId: number,
-	userId: number,
-	photoIdOrIds: PhotoId | PhotoId[],
-) => {
-	// Check if incoming photos is many(array) or a single photo
-	const photoIds = Array.isArray(photoIdOrIds)
-		? photoIdOrIds.map((photo) => photo.id)
-		: [photoIdOrIds.id];
+export const addPhotoToAlbum = async (albumId: number, userId: number, photoIdOrIds: PhotoId[]) => {
+	const photoIds = photoIdOrIds.map((photo) => photo.id);
 
 	const photos = await prisma.photo.findMany({
 		where: {

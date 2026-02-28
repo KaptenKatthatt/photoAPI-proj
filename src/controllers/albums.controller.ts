@@ -120,7 +120,7 @@ export const destroy = async (req: Request, res: Response) => {
 
 // Add photo or photos to album
 export const linkPhotoToAlbum = async (
-	req: Request<{ albumId: string }, unknown, AlbumId | AlbumId[]>,
+	req: Request<{ albumId: string }, unknown, AlbumId[]>,
 	res: Response,
 ) => {
 	const albumId = Number(req.params.albumId);
