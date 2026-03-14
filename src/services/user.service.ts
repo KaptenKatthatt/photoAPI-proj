@@ -1,5 +1,9 @@
+import bcrypt from "bcrypt";
+
 import { prisma } from "../lib/prisma.ts";
 import type { CreateUserData, UpdateUserData } from "../types/User.types.ts";
+
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 /**
  * Get a User
@@ -29,6 +33,10 @@ export const getUserByEmail = async (email: string, user_id?: number) => {
 			...(user_id ? { NOT: { id: user_id } } : {}),
 		},
 	});
+};
+
+export const hashPassword = async (password: string) => {
+	return await bcrypt.hash(password, SALT_ROUNDS);
 };
 
 // Check if email already exists

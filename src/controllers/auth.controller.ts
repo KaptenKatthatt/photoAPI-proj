@@ -1,14 +1,13 @@
 /**
  * Auth Controller
  */
-import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import type { CreateUserData } from "../types/User.types.ts";
 import Debug from "debug";
 import jwt from "jsonwebtoken";
 import { matchedData } from "express-validator";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
-import { createUser, getUser, getUserByEmail } from "../services/user.service.ts";
+import { createUser, getUser, getUserByEmail, hashPassword } from "../services/user.service.ts";
 import type { JWTAccessTokenPayload, JWTRefreshTokenPayload } from "../types/JWT.types.ts";
 import { StringValue } from "ms";
 
@@ -21,8 +20,6 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 const REFRESH_TOKEN_LIFETIME = (process.env.REFRESH_TOKEN_LIFETIME as StringValue) || "1d";
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-
-const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 // Check for tokens
 if (!ACCESS_TOKEN_SECRET) {
@@ -45,7 +42,7 @@ export const registerUser = async (req: Request, res: Response) => {
 	const validatedData = matchedData<CreateUserData>(req);
 
 	// Create hash and salt for password
-	const hashed_password = await bcrypt.hash(validatedData.password, SALT_ROUNDS);
+	const hashed_password = await hashPassword(validatedData.password);
 
 	try {
 		// Create the user in the database

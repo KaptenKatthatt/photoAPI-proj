@@ -1,14 +1,11 @@
 /**
  * Profile Controller
  */
-import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { updateUserProfile } from "../services/user.service.ts";
+import { hashPassword, updateUserProfile } from "../services/user.service.ts";
 import { matchedData } from "express-validator";
 import type { UpdateUserData } from "../types/User.types.ts";
 import { handlePrismaError } from "../lib/errorHandlers/handlePrismaError.ts";
-
-const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 // Get logged in user's profile
 export const getProfile = async (req: Request, res: Response) => {
@@ -37,7 +34,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 	// If request to update password, clone data to avoid overwriting other incoming data
 	const data = { ...validatedData };
 	if (data.password) {
-		data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
+		data.password = await hashPassword(data.password);
 	}
 
 	try {
