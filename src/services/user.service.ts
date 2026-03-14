@@ -22,16 +22,19 @@ export const createUser = async (data: CreateUserData) => {
 /**
  * Find a user by email
  */
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string, user_id?: number) => {
 	return prisma.user.findUnique({
-		where: { email },
+		where: {
+			email,
+			...(user_id ? { NOT: { id: user_id } } : {}),
+		},
 	});
 };
 
 // Check if email already exists
-export const validateEmailDoesNotExist = async (value: string) => {
-	const user = await getUserByEmail(value);
+export const validateEmailDoesNotExist = async (value: string, user_id?: number) => {
 	// If a user with that email was found, throw an error
+	const user = await getUserByEmail(value, user_id);
 	if (user) {
 		throw new Error("Email already exists");
 	}

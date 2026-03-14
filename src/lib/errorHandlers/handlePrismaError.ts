@@ -29,7 +29,7 @@ export const handlePrismaError = (res: Response, err: unknown) => {
 		// Was it not found?
 		if (err.code === "P2025") {
 			console.debug("Resource not found", err);
-			res.status(404).send({ status: "error", message: "Resource not found" });
+			res.status(404).send({ status: "fail", message: "Resource not found" });
 			return;
 		}
 	}

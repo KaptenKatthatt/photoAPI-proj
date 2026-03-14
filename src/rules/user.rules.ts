@@ -7,7 +7,9 @@ export const createUserRules = [
 		.isEmail()
 		.withMessage("Email must be a valid email address")
 		.bail()
-		.custom(validateEmailDoesNotExist),
+		.custom(async (value: string) => {
+			await validateEmailDoesNotExist(value);
+		}),
 
 	body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
 
@@ -40,7 +42,9 @@ export const updateUserRules = [
 		.trim()
 		.isEmail()
 		.withMessage("Email must be a valid email address")
-		.custom(validateEmailDoesNotExist),
+		.custom(async (value: string, { req }) => {
+			await validateEmailDoesNotExist(value, req.userId);
+		}),
 
 	body("password")
 		.optional()
