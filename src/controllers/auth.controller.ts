@@ -1,6 +1,7 @@
 /**
  * Auth Controller
  */
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import type { CreateUserData } from "../types/User.types.ts";
 import Debug from "debug";
